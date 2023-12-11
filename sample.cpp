@@ -41,19 +41,6 @@
 //
 //	Author:			Joe Graphics
 
-/* Joey's globals, function decls., defines, includes. */
-
-using namespace std;
-#include <vector>
-const float SPHERE_RADIUS = 0.5f;
-const int   SPHERE_SLICES = 8;
-const int   SPHERE_STACKS = 8;
-GLuint neuron;
-void InitNeuronDL();
-void DrawNeuron();
-
-/* End of Joey's globals, function decls., defines, includes. */
-
 // title of these windows:
 
 const char *WINDOWTITLE = "OpenGL / GLUT Sample -- Joe Graphics";
@@ -293,6 +280,19 @@ MulArray3(float factor, float a, float b, float c )
 //#include "keytime.cpp"
 //#include "glslprogram.cpp"
 
+/* Joey's globals, function decls., defines, includes. */
+
+using namespace std;
+#include <vector>
+const float SPHERE_RADIUS = 0.5f;
+const int   SPHERE_SLICES = 8;
+const int   SPHERE_STACKS = 8;
+GLuint neuron;
+void InitNeuronDL();
+void DrawNeuron(vector<float> xyz, enum Colors color);
+vector<vector<float>> NeuronCoordsList;
+
+/* End of Joey's globals, function decls., defines, includes. */
 
 // main program:
 
@@ -312,6 +312,21 @@ main( int argc, char *argv[ ] )
 	// create the display lists that **will not change**:
 
 	InitLists( );
+
+  NeuronCoordsList = {
+    { 0.0f, 0.0f, 0.0f },
+    { 0.0f, 0.0f, 1.0f },
+    { 0.0f, 0.0f, 2.0f },
+    { 0.0f, 0.0f, 3.0f },
+    { 0.0f, 0.0f, 4.0f },
+    { 0.0f, 0.0f, 5.0f },
+    { 0.0f, 0.0f, 6.0f },
+    { 0.0f, 0.0f, 7.0f },
+  };
+
+  // TODO: Add "initialize start coord list". 
+
+  
 
 	// init all the global variables used by Display( ):
 	// this will also post a redisplay
@@ -459,6 +474,11 @@ Display( )
 	// draw the box object by calling up its display list:
 
 	glCallList( BoxList );
+
+
+  for (size_t i = 0; i < NeuronCoordsList.size(); i++) {
+    DrawNeuron(NeuronCoordsList[i], RED);
+  }
 
 #ifdef DEMO_Z_FIGHTING
 	if( DepthFightingOn != 0 )
@@ -889,6 +909,7 @@ InitLists( )
 
 	glEndList( );
 
+  InitNeuronDL();
 
 	// create the axes:
 
