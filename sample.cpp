@@ -43,8 +43,14 @@
 
 /* Joey's globals, function decls., defines, includes. */
 
+using namespace std;
 #include <vector>
-std::vector<GLuint> neurons;
+const float SPHERE_RADIUS = 0.5f;
+const int   SPHERE_SLICES = 8;
+const int   SPHERE_STACKS = 8;
+GLuint neuron;
+void InitNeuronDL();
+void DrawNeuron();
 
 /* End of Joey's globals, function decls., defines, includes. */
 
@@ -279,7 +285,7 @@ MulArray3(float factor, float a, float b, float c )
 
 //#include "setmaterial.cpp"
 //#include "setlight.cpp"
-//#include "osusphere.cpp"
+#include "osusphere.cpp"
 //#include "osucone.cpp"
 //#include "osutorus.cpp"
 //#include "bmptotexture.cpp"
@@ -1311,4 +1317,23 @@ Unit( float v[3] )
 		v[2] /= dist;
 	}
 	return dist;
+}
+
+void InitNeuronDL() {
+  neuron = glGenLists(1);
+  glNewList(neuron, GL_COMPILE);
+  OsuSphere(SPHERE_RADIUS, SPHERE_SLICES, SPHERE_STACKS);
+  glEndList();
+}
+
+void DrawNeuron(vector<float> xyz, enum Colors color) {
+  glPushMatrix();
+  glColor3f(
+    Colors[color][0],
+    Colors[color][1],
+    Colors[color][2]
+  );
+  glTranslatef(xyz[0], xyz[1], xyz[2]);
+  glCallList(neuron);
+  glPopMatrix();
 }
