@@ -473,7 +473,7 @@ Display( )
 
 	// draw the box object by calling up its display list:
 
-	glCallList( BoxList );
+	//glCallList( BoxList );
 
 
   for (size_t i = 0; i < NeuronCoordsList.size(); i++) {
