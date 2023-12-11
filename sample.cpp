@@ -289,7 +289,7 @@ const int   SPHERE_SLICES = 8;
 const int   SPHERE_STACKS = 8;
 GLuint neuron;
 void InitNeuronDL();
-void DrawNeuron(vector<float> xyz, enum Colors color);
+void DrawNeuronf(vector<float> xyz, enum Colors color);
 vector<vector<float>> NeuronCoordsList;
 
 /* End of Joey's globals, function decls., defines, includes. */
@@ -477,7 +477,12 @@ Display( )
 
 
   for (size_t i = 0; i < NeuronCoordsList.size(); i++) {
-    DrawNeuron(NeuronCoordsList[i], RED);
+    if (i % 2 == 0) {
+      DrawNeuronf(NeuronCoordsList[i], RED);
+    }
+    else {
+      DrawNeuronf(NeuronCoordsList[i], BLUE);
+    }
   }
 
 #ifdef DEMO_Z_FIGHTING
@@ -1347,7 +1352,7 @@ void InitNeuronDL() {
   glEndList();
 }
 
-void DrawNeuron(vector<float> xyz, enum Colors color) {
+void DrawNeuronf(vector<float> xyz, enum Colors color) {
   glPushMatrix();
   glColor3f(
     Colors[color][0],
