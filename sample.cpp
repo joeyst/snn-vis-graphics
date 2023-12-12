@@ -284,13 +284,18 @@ MulArray3(float factor, float a, float b, float c )
 
 using namespace std;
 #include <vector>
-const float SPHERE_RADIUS = 0.5f;
-const int   SPHERE_SLICES = 8;
-const int   SPHERE_STACKS = 8;
+const float SPHERE_RADIUS  = 0.5f;
+const int   SPHERE_SLICES  = 8;
+const int   SPHERE_STACKS  = 8;
+
+const float NEURON_RADIUS  = SPHERE_RADIUS;
+const float NEURON_SPACING = 0.2f * NEURON_RADIUS; 
 GLuint neuron;
 void InitNeuronDL();
 void DrawNeuronf(vector<float> xyz, enum Colors color);
+void DrawNeuronf(vector<float> xyz, enum Colors color, float alpha);
 vector<vector<float>> NeuronCoordsList;
+void DrawNeuron(vector<int> xyz, enum Colors color, float alpha);
 
 /* End of Joey's globals, function decls., defines, includes. */
 
@@ -1362,4 +1367,29 @@ void DrawNeuronf(vector<float> xyz, enum Colors color) {
   glTranslatef(xyz[0], xyz[1], xyz[2]);
   glCallList(neuron);
   glPopMatrix();
+}
+
+void DrawNeuronf(vector<float> xyz, enum Colors color, float alpha) {
+  glPushMatrix();
+  glColor4f(
+    Colors[color][0],
+    Colors[color][1],
+    Colors[color][2],
+    alpha
+  );
+  glTranslatef(xyz[0], xyz[1], xyz[2]);
+  glCallList(neuron);
+  glPopMatrix();
+}
+
+void DrawNeuron(vector<int> xyz, enum Colors color, float alpha) {
+  DrawNeuronf(
+    {
+      (float)xyz[0] * (NEURON_RADIUS + NEURON_SPACING),
+      (float)xyz[1] * (NEURON_RADIUS + NEURON_SPACING),
+      (float)xyz[2] * (NEURON_RADIUS + NEURON_SPACING)
+    }, 
+    color, 
+    alpha
+  );
 }
