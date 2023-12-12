@@ -1448,7 +1448,7 @@ float GetSynapseLength(vector<int> start, vector<int> end) {
 }
 
 #include <cmath> 
-float GetArctanDegrees(float a, float b) {
+float atan_deg(float a, float b) {
   return atanf(a / b) * 180.f / F_PI;
 }
 
@@ -1456,16 +1456,13 @@ float GetArctanDegrees(float a, float b) {
 void DrawSynapse(vector<int> start, vector<int> end, vector<Proportion> rgba) {
   glPushMatrix();
   glColor4f(rgba[0], rgba[1], rgba[2], rgba[3]);
-  // float x = dxyz[0];
-  // float y = dxyz[1];
-  // float z = dxyz[2];
   float x = end[0] - start[0];
   float y = end[1] - start[1];
   float z = end[2] - start[2];
 
-  float x_rot = GetArctanDegrees(z, y);
-  float y_rot = GetArctanDegrees(x, z);
-  float z_rot = GetArctanDegrees(y, x);
+  float x_rot = atan_deg(z, y);
+  float y_rot = atan_deg(x, z);
+  float z_rot = atan_deg(y, x);
 
   glTranslatef(start[0], start[1], start[2]);
   glRotatef(x_rot, 1.0f, 0.f, 0.f);
