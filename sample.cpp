@@ -1463,7 +1463,10 @@ void InitSynapseDL() {
 }
 
 vector<float> GetSynapseDXYZ(vector<int> start, vector<int> end) {
-  vector<float> dxyz = {(float)(start[0] - end[0]), (float)(start[1] - end[1]), (float)(start[2] - end[2])};
+  vector<float> dxyz(3);
+  for (int i = 0; i < 3; i++) {
+    dxyz[i] = (float)(end[i] - start[i]);
+  }
   for (int i = 0; i < 3; i++) {
     dxyz[i] = std::abs(dxyz[i]);
     if (dxyz[i] == 0.f) {
