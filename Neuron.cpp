@@ -77,75 +77,16 @@ int Neuron::NumberOfFires() {
   return number_of_fires;
 }
 
-bool Neuron::EnergyExceedsFiringThreshold() {
-  return this->energy > NEURON_FIRE_THRESH;
-}
-
 float Neuron::GetTolFactor() {
   return ::GetTolFactor(this->NumberOfFires());
 }
 
-void Neuron::DecayEnergy() {
-  this->energy = (1.f - ENERGY_DECAY_PROP) * this->energy;
-}
-
-void Neuron::ZeroEnergy() {
-  this->energy = 0.f;
-}
-
-void Neuron::UpdateEnergy() {
-  fires->Push(firing);
-  if (firing) {
-    energy = 0.f;
-  }
-  else {
-    energy += GetTolAdjustedEnergyReceived();
-    DecayEnergy();
-  }
-}
-
-float Neuron::GetRawEnergyReceived() {
-  float e = 0.f;
-  for (auto synapse : synapses) {
-    if (synapse->from.JustFired()) {
-      e += synapse->GetWeight();
-    }
-  }
-  return e;
-}
-
-bool Neuron::JustFired() {
-  return this->fires->Peek();
-}
-
-float Neuron::GetTolAdjustedEnergyReceived() {
-  Print();
-  std::cout << "Raw Energy Received * Tol Factor: " << GetRawEnergyReceived() * GetTolFactor() << std::endl;
-  return GetRawEnergyReceived() * GetTolFactor();
-}
-
-void Neuron::SetFired() {
-  if (energy + GetTolAdjustedEnergyReceived() > NEURON_FIRE_THRESH) {
-    firing = true;
-  }
-}
-
-float Neuron::Output() {
-  if (firing) {
-    return 1.f;
-  }
-  else {
-    return 0.f;
-  }
-}
-
-void Neuron::UpdateSynapses() {
-  SetFired();
-  ApplyOjas();
-}
-
 void Neuron::AddSynapse(Synapse* synapse) {
   synapses.push_back(synapse);
+}
+
+void Neuron::AddOutgoingSynapse(Synapse* synapse) {
+  outgoing_synapses.push_back(synapse);
 }
 
 void Neuron::Print() {

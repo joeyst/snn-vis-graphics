@@ -38,47 +38,39 @@ class Neuron {
     Fires *fires;
     bool firing; 
     std::vector<Synapse*> synapses;
+    std::vector<Synapse*> outgoing_synapses;
     PointIds3D xyz; 
 
   public:
     Neuron(float initialEnergy);
     Neuron();
-    void UpdateSynapses();
-    void UpdateEnergy();
-    void AddSynapse(Synapse* synapse);
-    void Print();
 
-    bool JustFired();
-
+    // Stimulation interface: 
     void SetFiredFlag();
 
-    float GetIncomingEnergy();
+    // Net modification interface: 
+    void AddSynapse(Synapse* synapse);
+    void AddOutgoingSynapse(Synapse* synapse);
 
+    // Stages interface: 
+    void SetFiredFlag();
+    void ZeroOrDecayEnergy();
+    void AddAssignIncomingEnergy();
+    void ApplyOjas();
     void PushFiringToBuffer();
 
-    void AddAssignIncomingEnergy();
+    // Debug interface: 
+    void Print();
+
+    // Primarily for inner logic, but can use outside: 
+    float GetIncomingEnergy();
 
   private:
     bool EnergyIsAboveThreshold();
     float GetRawIncomingEnergy();
     bool FiredFlag();
-    void ZeroOrDecayEnergy();
-
-    bool EnergyExceedsFiringThreshold();
-    void DecayEnergy();
-    void ZeroEnergy();
-    void ZeroEnergyIfExceeds();
-
     int NumberOfFires();
-    void SetCurrentTickFire(bool did_fire);
     float GetTolFactor();
-
-    float GetRawEnergyReceived();
-    float GetTolAdjustedEnergyReceived();
-
-    void SetFired();
-    float Output();
-    void ApplyOjas();
   };
 
 #endif 
