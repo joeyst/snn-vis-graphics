@@ -15,7 +15,7 @@ class NetBuilder {
     n     => number of layers. 
   */
   public:
-    Net net;
+    Net *net;
     void AddRectangle(PointIds3D start, PointIds3D dxyz, PointIds3D step, std::size_t n);
     NetBuilder();
 };

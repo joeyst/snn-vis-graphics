@@ -280,7 +280,11 @@ MulArray3(float factor, float a, float b, float c )
 //#include "keytime.cpp"
 //#include "glslprogram.cpp"
 
-/* Joey's globals, function decls., defines, includes. */
+#include "joeyst.h"
+
+/*
+// Joey's globals, function decls., defines, includes. 
+
 
 typedef float Proportion;
 using namespace std;
@@ -313,7 +317,9 @@ void DrawSynapse(vector<int> start, vector<int> end, vector<Proportion> rgba);
 vector<float> GetSynapseDXYZ(vector<int> start, vector<int> end);
 float GetSynapseLength(vector<int> start, vector<int> end);
 
-/* End of Joey's globals, function decls., defines, includes. */
+//  End of Joey's globals, function decls., defines, includes. 
+
+*/
 
 // main program:
 
@@ -329,6 +335,8 @@ main( int argc, char *argv[ ] )
 	// setup all the graphics stuff:
 
 	InitGraphics( );
+
+  InitNet();
 
 	// create the display lists that **will not change**:
 
@@ -507,6 +515,11 @@ Display( )
   }
 
   DrawNeuron({5, 5, 5}, GREEN, 0.5f);
+
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  DrawNet();
+  glDisable(GL_BLEND);
 
 for (int j = 0; j < 10.f; j++) {
     for (int i = 0; i < 10.f; i++) {
@@ -1404,10 +1417,10 @@ void DrawNeuronf(vector<float> xyz, enum Colors color, Proportion alpha) {
     Colors[color][2],
     alpha
   );
-  std::cout << "DrawNeuronf === " << std::endl;
-  for (int i = 0; i < xyz.size(); i++) {
-    std::cout << "i:" << i << " | " << xyz[i] << std::endl;
-  }
+  // std::cout << "DrawNeuronf === " << std::endl;
+  // for (int i = 0; i < xyz.size(); i++) {
+  //   std::cout << "i:" << i << " | " << xyz[i] << std::endl;
+  // }
   glTranslatef(xyz[0], xyz[1], xyz[2]);
   glCallList(neuron);
   glPopMatrix();
@@ -1423,6 +1436,23 @@ void DrawNeuron(vector<int> xyz, enum Colors color, Proportion alpha) {
     color, 
     alpha
   );
+}
+
+void DrawNeuron(vector<int> xyz, vector<Proportion> rgba) {
+  glPushMatrix();
+  glColor4f(
+    rgba[0],
+    rgba[1],
+    rgba[2],
+    rgba[3]
+  );
+  glTranslatef(
+    (float)xyz[0] * (2 * (NEURON_RADIUS + NEURON_SPACING)),
+    (float)xyz[1] * (2 * (NEURON_RADIUS + NEURON_SPACING)),
+    (float)xyz[2] * (2 * (NEURON_RADIUS + NEURON_SPACING))
+  );
+  glCallList(neuron);
+  glPopMatrix();
 }
 
 void InitSynapseDL() {

@@ -33,15 +33,15 @@ void TestGetOjaWeightChange() {
 void TestNetBuilderAddRectangle() {
   NetBuilder net_builder;
   net_builder.AddRectangle({0, 0, 0}, {1, 1, 1}, {1, 1, 1}, 3);
-  net_builder.net.neuron_id_map[{0, 0, 0}]->energy = 1.01f;
-  Synapse* synapse = net_builder.net.neuron_id_map[{1, 1, 1}]->synapses[0];
+  net_builder.net->neuron_id_map[{0, 0, 0}]->energy = 1.01f;
+  Synapse* synapse = net_builder.net->neuron_id_map[{1, 1, 1}]->synapses[0];
   synapse->SetWeight(1.01f);
 
-  net_builder.net.Print();
+  net_builder.net->Print();
 
   for (int l = 0; l < 3; l++) {
-    net_builder.net.Tick();
-    net_builder.net.Print();
+    net_builder.net->Tick();
+    net_builder.net->Print();
   }
 
   std::cout << "GetTolFactor(0): " << GetTolFactor(0) << std::endl;

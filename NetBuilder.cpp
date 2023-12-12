@@ -2,8 +2,11 @@
 #include "NetBuilder.h"
 #include "utils.h"
 #include "Point3D.h"
+#include "Net.h"
 
-NetBuilder::NetBuilder() {}
+NetBuilder::NetBuilder() {
+  net = new Net();
+}
 
 void NetBuilder::AddRectangle(PointIds3D start, PointIds3D dxyz, PointIds3D step, std::size_t n) {
   std::vector<PointIds3D> start_points = GetCoordsInRectangularPrism(start, dxyz);
@@ -20,7 +23,7 @@ void NetBuilder::AddRectangle(PointIds3D start, PointIds3D dxyz, PointIds3D step
 
   for (auto layer : layers) {
     for (auto point : layer) {
-      net.EnableNeuron(point);
+      net->EnableNeuron(point);
     }
   }
 
@@ -28,7 +31,7 @@ void NetBuilder::AddRectangle(PointIds3D start, PointIds3D dxyz, PointIds3D step
   for (std::size_t i = 0; i < layers.size() - 1; i++) {
     for (std::size_t j = 0; j < layers[i].size(); j++) {
       for (std::size_t k = 0; k < layers[i + 1].size(); k++) {
-        net.EnableSynapse(layers[i][j], layers[i + 1][k]);
+        net->EnableSynapse(layers[i][j], layers[i + 1][k]);
       }
     }
   }

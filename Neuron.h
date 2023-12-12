@@ -41,6 +41,8 @@ class Neuron {
     void AddSynapse(Synapse* synapse);
     void Print();
 
+    bool JustFired();
+
   private:
     bool EnergyExceedsFiringThreshold();
     void DecayEnergy();
@@ -52,7 +54,6 @@ class Neuron {
     float GetTolFactor();
 
     float GetRawEnergyReceived();
-    bool JustFired();
     float GetTolAdjustedEnergyReceived();
 
     void SetFired();
