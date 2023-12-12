@@ -49,9 +49,13 @@ class Neuron {
 
     void SetFiredFlag();
 
+    float GetIncomingEnergy();
+
   private:
     bool EnergyIsAboveThreshold();
     float GetRawIncomingEnergy();
+    bool FiredFlag();
+    void ZeroOrDecayEnergy();
 
     bool EnergyExceedsFiringThreshold();
     void DecayEnergy();

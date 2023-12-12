@@ -24,11 +24,23 @@ void Neuron::ZeroOrDecayEnergy() {
   }
 }
 
-float Neuron::GetRawIncomingEnergy() {
-
+bool Neuron::FiredFlag() {
+  return this->firing;
 }
 
+float Neuron::GetRawIncomingEnergy() {
+  float res = 0.f;
+  for (Synapse* s : synapses) {
+    if (s->from.FiredFlag()) {
+      res += s->GetWeight();
+    }
+  }
+  return res;
+}
 
+float Neuron::GetIncomingEnergy() {
+  return GetRawIncomingEnergy() * GetTolFactor();
+}
 
 int Neuron::NumberOfFires() {
   int number_of_fires = 0;
