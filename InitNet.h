@@ -38,7 +38,7 @@ void DrawNeuron(vector<int> xyz, vector<Proportion> rgba);
 void DrawSynapse(vector<int> start, vector<int> end, vector<Proportion> rgba);
 
 void DrawNeuronFiring(vector<int> xyz) {
-  DrawNeuron(xyz, { 0.f, 1.0f, 1.0f, 0.7f });
+  DrawNeuron(xyz, { 1.0f, 1.0f, 0.0f, 0.7f });
 }
 
 void DrawNeuronResting(vector<int> xyz) {
@@ -57,13 +57,17 @@ void DrawNet() {
     }
   }
 
-  // TODO: Adding drawing synapses firing or not. 
   // The following is only for drawing synapses in the first place, not if they're firing or not. 
   for (auto kv : net->neuron_id_map) {
     Neuron* n = kv.second;
     vector<int> xyz = kv.first;
     for (Synapse* s : n->synapses) {
-      DrawSynapse(s->from.xyz, n->xyz, {0.5f, 0.5f, 0.5f, 0.05f});
+      if (s->from.EnergyIsAboveThreshold()) {
+        DrawSynapse(s->from.xyz, n->xyz, {1.0f, 1.0f, 0.0f, 0.2f});
+      }
+      else {
+        DrawSynapse(s->from.xyz, n->xyz, {0.5f, 0.5f, 0.5f, 0.05f});
+      }
     }
   }
 }
