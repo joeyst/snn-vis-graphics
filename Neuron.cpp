@@ -16,8 +16,10 @@ bool Neuron::EnergyIsAboveThreshold() {
 }
 
 float Neuron::GetRawIncomingEnergy() {
-  
+
 }
+
+
 
 int Neuron::NumberOfFires() {
   int number_of_fires = 0;

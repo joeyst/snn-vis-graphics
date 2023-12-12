@@ -17,14 +17,14 @@ class Neuron {
   firing_next | If firing during current tick. 
 
   STEPS:
-  1. Iterate synapses, setting is_firing based on if current neuron energy exceeds threshold. 
-  2. 
-
-  OLD steps: 
-  1. Set firing_next for each neuron, based on if current energy is above threshold. 
-  2. Update all the synapses, based on the last tick's fire bool and firing_next. 
-  3. Update the energies by setting to zero if the neuron fired, otherwise decaying and adding the energies from the current tick. 
-  4. Push firing_next. 
+  Starts with energies before firing+zeroing xor decaying. 
+  1. Set flag variable for if neuron exceeds energy thresh. 
+  2. For neurons that *are* firing atm, set energy to zero. Else, decay. 
+  3. Collect (and add) energies from previous neurons, using the flag variable that was set. 
+  4. Check if neuron exceeds energy thresh. If it does, apply Oja's. Otherwise, do nothing, because the output in Oja's rule will be zero. 
+    1. The synapse uses a circular buffer to store the previous weights. 
+  5. Push flag variable to circular buffer for firing, so that tolerance in step 3 can be calculated. 
+  6. Return to step 1. 
   */
   public:
     float energy; 
