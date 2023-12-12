@@ -35,7 +35,7 @@ class Neuron {
   */
   public:
     float energy; 
-    Fires fires;
+    Fires *fires;
     bool firing; 
     std::vector<Synapse*> synapses;
     PointIds3D xyz; 
@@ -53,6 +53,8 @@ class Neuron {
     void SetFiredFlag();
 
     float GetIncomingEnergy();
+
+    void PushFiringToBuffer();
 
   private:
     bool EnergyIsAboveThreshold();

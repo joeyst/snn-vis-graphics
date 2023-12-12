@@ -4,8 +4,8 @@
 #include "config.h"
 #include <iostream>
 
-Neuron::Neuron(float initialEnergy): energy(initialEnergy), fires(Fires(N_TICKS_TO_TRACK)) {}
-Neuron::Neuron(): energy(0.f), fires(Fires(N_TICKS_TO_TRACK)) {}
+Neuron::Neuron(float initialEnergy): energy(initialEnergy), fires(new Fires(N_TICKS_TO_TRACK)) {}
+Neuron::Neuron(): energy(0.f), fires(new Fires(N_TICKS_TO_TRACK)) {}
 
 void Neuron::SetFiredFlag() {
   this->firing = EnergyIsAboveThreshold();
@@ -36,7 +36,7 @@ void Neuron::ApplyOjas() {
   if (EnergyIsAboveThreshold()) {
     for (Synapse* s : synapses) {
       float streng;
-      float forget = s->weight;
+      float forget = s->GetWeight();
       if (s->from.FiredFlag()) {
         streng = 1.f;
       }
@@ -69,8 +69,8 @@ float Neuron::GetIncomingEnergy() {
 
 int Neuron::NumberOfFires() {
   int number_of_fires = 0;
-  for (std::size_t i = 0; i < this->fires.GetVector().size(); ++i) {
-    if (this->fires.GetVector()[i]) {
+  for (std::size_t i = 0; i < this->fires->GetVector().size(); ++i) {
+    if (this->fires->GetVector()[i]) {
       number_of_fires++;
     }
   }
@@ -94,7 +94,7 @@ void Neuron::ZeroEnergy() {
 }
 
 void Neuron::UpdateEnergy() {
-  fires.Push(firing);
+  fires->Push(firing);
   if (firing) {
     energy = 0.f;
   }
@@ -115,7 +115,7 @@ float Neuron::GetRawEnergyReceived() {
 }
 
 bool Neuron::JustFired() {
-  return this->fires.Peek();
+  return this->fires->Peek();
 }
 
 float Neuron::GetTolAdjustedEnergyReceived() {
@@ -136,15 +136,6 @@ float Neuron::Output() {
   }
   else {
     return 0.f;
-  }
-}
-
-void Neuron::ApplyOjas() {
-  for (auto synapse : synapses) {
-    float streng = synapse->from.JustFired() * Output();
-    float forget = synapse->GetWeight() * Output() * Output();
-    float change = (streng - forget) * LEARNING_RATE;
-    synapse->SetWeight(synapse->GetWeight() + change);
   }
 }
 
