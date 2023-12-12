@@ -48,6 +48,10 @@ void ApplyOjas() {
   }
 }
 
+void PushFiringToBuffer() {
+  fires->Push(FiredFlag());
+}
+
 float Neuron::GetRawIncomingEnergy() {
   float res = 0.f;
   for (Synapse* s : synapses) {
