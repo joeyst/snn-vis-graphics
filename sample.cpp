@@ -1458,7 +1458,7 @@ void DrawNeuron(vector<int> xyz, vector<Proportion> rgba) {
 void InitSynapseDL() {
   synapse = glGenLists(1);
   glNewList(synapse, GL_COMPILE);
-  OsuCone(0.2f * NEURON_RADIUS, 0.2f * NEURON_RADIUS, 1.f, SPHERE_SLICES, SPHERE_STACKS);
+  OsuCone(0.25f * NEURON_RADIUS, 0.15f * NEURON_RADIUS, 1.f, SPHERE_SLICES, SPHERE_STACKS);
   glEndList();
 }
 
@@ -1467,44 +1467,54 @@ vector<float> GetSynapseDXYZ(vector<int> start, vector<int> end) {
   for (int i = 0; i < 3; i++) {
     dxyz[i] = (float)(end[i] - start[i]);
   }
-  for (int i = 0; i < 3; i++) {
-    dxyz[i] = std::abs(dxyz[i]);
-    if (dxyz[i] == 0.f) {
-      dxyz[i] = 0.f;
-    }
-    else {
-      dxyz[i] = (2 * dxyz[i] * (NEURON_RADIUS + NEURON_SPACING)) - NEURON_RADIUS - NEURON_SPACING;
-    }
-  }
-  for (int i = 0; i < 3; i++) {
-    if (start[i] < end[i]) {
-      dxyz[i] = -dxyz[i];
-    }
-  }
   return dxyz;
 }
 
 float GetSynapseLength(vector<int> start, vector<int> end) {
   vector<float> dxyz = GetSynapseDXYZ(start, end);
-  return sqrtf((dxyz[0] * dxyz[0]) + (dxyz[1] * dxyz[1]) + (dxyz[2] * dxyz[2]));
+  return sqrtf((dxyz[0] * dxyz[0]) + (dxyz[1] * dxyz[1]) + (dxyz[2] * dxyz[2])) * (NEURON_RADIUS + NEURON_SPACING);
 }
 
 float atan_deg(float a, float b) {
   return atanf(a / b) * 180.f / F_PI;
 }
 
+vector<float> GetCoordsFromPoint(vector<int> point) {
+  vector<float> coords(3);
+  for (int i = 0; i < 3; i++) {
+    coords[i] = ((float)point[i] * (2 * (NEURON_RADIUS + NEURON_SPACING)));
+  }
+  return coords;
+}
+
+float EuclidianNorm(vector<float> point) {
+  float res = 0.f;
+  for (int i = 0; i < 3; i++) {
+    res += (point[i] * point[i]);
+  }
+  return sqrtf(res);
+}
+
+vector<float> sub(vector<float> start, vector<float> end) {
+  vector<float> res(3);
+  for (int i = 0; i < 3; i++) {
+    res[i] = end[i] - start[i];
+  }
+  return res;
+}
+
 void DrawSynapse(vector<int> start, vector<int> end, vector<Proportion> rgba) {
   glPushMatrix();
   glColor4f(rgba[0], rgba[1], rgba[2], rgba[3]);
 
-  vector<int> space(3);
-  for (int i = 0; i < 3; i++) {
-    space[i] = (start[i] + 1) * (NEURON_RADIUS + NEURON_SPACING);
-  }
+  vector<float> start_coords = GetCoordsFromPoint(start);
+  vector<float> end_coords = GetCoordsFromPoint(end);
+  vector<float> dxyz = sub(start_coords, end_coords);
+  float distance = EuclidianNorm(dxyz);
 
-  glTranslatef(space[0], space[1], space[2]);
-  vector<float> dxyz = {end[0] - start[0], end[1] - start[1], end[2] - start[2]};
+  glTranslatef(start_coords[0], start_coords[1], start_coords[2]);
 
+  // Rotating to be parallel with line in 3D. 
   glm::vec3 lineDirection(0.0f, 1.0f, 0.0f); 
   glm::vec3 targetVector(dxyz[0], dxyz[1], dxyz[2]);
 
@@ -1515,8 +1525,7 @@ void DrawSynapse(vector<int> start, vector<int> end, vector<Proportion> rgba) {
   glm::mat4 rotationMatrix = glm::rotate(glm::mat4(1.0f), rotationAngle, rotationAxis);
   glMultMatrixf(glm::value_ptr(rotationMatrix)); 
 
-  glTranslatef(0.0f, NEURON_RADIUS, 0.0f);
-  glScalef(1.f, GetSynapseLength(start, end), 1.f);
+  glScalef(1.f, distance, 1.f);
   glCallList(synapse);
   glPopMatrix();
 }

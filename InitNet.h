@@ -63,7 +63,7 @@ void DrawNet() {
     Neuron* n = kv.second;
     vector<int> xyz = kv.first;
     for (Synapse* s : n->synapses) {
-      DrawSynapse(s->from.xyz, n->xyz, {0.5f, 0.5f, 0.5f, 0.2f});
+      DrawSynapse(s->from.xyz, n->xyz, {0.5f, 0.5f, 0.5f, 0.05f});
     }
   }
 }
