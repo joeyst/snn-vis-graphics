@@ -286,6 +286,7 @@ typedef float Proportion;
 using namespace std;
 #include <vector>
 #include <math.h>
+#include <iostream>
 const float SPHERE_RADIUS  = 0.5f;
 const int   SPHERE_SLICES  = 8;
 const int   SPHERE_STACKS  = 8;
@@ -442,7 +443,7 @@ Display( )
 
 	// set the eye position, look-at position, and up-vector:
 
-	gluLookAt( 0.f, 0.f, 3.f,     0.f, 0.f, 0.f,     0.f, 1.f, 0.f );
+	gluLookAt( -10.f, 3.f, 5.f,     0.f, 3.f, 5.f,     0.f, 1.f, 0.f );
 
 	// rotate the scene:
 
@@ -498,7 +499,11 @@ Display( )
     }
   }
 
-  DrawSynapse({0, 0, 0}, {5, 5, 5}, {0.f, 0.1f, 0.f, 0.5f});
+  DrawNeuron({5, 5, 5}, GREEN, 0.5f);
+
+  for (int i = 0; i < 10.f; i++) {
+    DrawSynapse({i, 0, 0}, {5 + i, 5, 5}, {0.f, 1.0f, 0.f, 1.0f});
+  }
 
 #ifdef DEMO_Z_FIGHTING
 	if( DepthFightingOn != 0 )
@@ -1376,6 +1381,8 @@ void DrawNeuronf(vector<float> xyz, enum Colors color) {
     Colors[color][2]
   );
   glTranslatef(xyz[0], xyz[1], xyz[2]);
+  for (auto i : xyz) {
+  }
   glCallList(neuron);
   glPopMatrix();
 }
@@ -1388,6 +1395,10 @@ void DrawNeuronf(vector<float> xyz, enum Colors color, Proportion alpha) {
     Colors[color][2],
     alpha
   );
+  std::cout << "DrawNeuronf === " << std::endl;
+  for (int i = 0; i < xyz.size(); i++) {
+    std::cout << "i:" << i << " | " << xyz[i] << std::endl;
+  }
   glTranslatef(xyz[0], xyz[1], xyz[2]);
   glCallList(neuron);
   glPopMatrix();
@@ -1420,7 +1431,12 @@ vector<float> GetSynapseDXYZ(vector<int> start, vector<int> end) {
       dxyz[i] = 0.f;
     }
     else {
-      dxyz[i] = (2 * dxyz[i] * (NEURON_RADIUS + NEURON_SPACING)) - NEURON_RADIUS;
+      dxyz[i] = (2 * dxyz[i] * (NEURON_RADIUS + NEURON_SPACING)) - NEURON_RADIUS - NEURON_SPACING;
+    }
+  }
+  for (int i = 0; i < 3; i++) {
+    if (start[i] < end[i]) {
+      dxyz[i] = -dxyz[i];
     }
   }
   return dxyz;
@@ -1431,10 +1447,32 @@ float GetSynapseLength(vector<int> start, vector<int> end) {
   return sqrtf((dxyz[0] * dxyz[0]) + (dxyz[1] * dxyz[1]) + (dxyz[2] * dxyz[2]));
 }
 
+#include <cmath> 
+float GetArctanDegrees(float a, float b) {
+  return atanf(a / b) * 180.f / F_PI;
+}
+
+#include <iostream> 
 void DrawSynapse(vector<int> start, vector<int> end, vector<Proportion> rgba) {
   glPushMatrix();
-  glRotatef(90.f, 1.f, 0.f, 0.f);
   glColor4f(rgba[0], rgba[1], rgba[2], rgba[3]);
+  // float x = dxyz[0];
+  // float y = dxyz[1];
+  // float z = dxyz[2];
+  float x = end[0] - start[0];
+  float y = end[1] - start[1];
+  float z = end[2] - start[2];
+
+  float x_rot = GetArctanDegrees(z, y);
+  float y_rot = GetArctanDegrees(x, z);
+  float z_rot = GetArctanDegrees(y, x);
+
+  glTranslatef(start[0], start[1], start[2]);
+  glRotatef(x_rot, 1.0f, 0.f, 0.f);
+  glRotatef(y_rot, 0.f, 1.0f, 0.f);
+  glRotatef(z_rot, 0.f, 0.f, 1.0f);
+  
+  glRotatef(90.f, 1.f, 0.f, 0.f);
   glScalef(1.f, GetSynapseLength(start, end), 1.f);
   glCallList(synapse);
   glPopMatrix();
