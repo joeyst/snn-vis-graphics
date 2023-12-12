@@ -56,6 +56,8 @@ class Neuron {
 
     void PushFiringToBuffer();
 
+    void AddAssignIncomingEnergy();
+
   private:
     bool EnergyIsAboveThreshold();
     float GetRawIncomingEnergy();
