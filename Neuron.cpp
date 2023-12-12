@@ -28,11 +28,11 @@ bool Neuron::FiredFlag() {
   return this->firing;
 }
 
-void AddAssignIncomingEnergy() {
+void Neuron::AddAssignIncomingEnergy() {
   this->energy = this->energy + GetIncomingEnergy();
 }
 
-void ApplyOjas() {
+void Neuron::ApplyOjas() {
   if (EnergyIsAboveThreshold()) {
     for (Synapse* s : synapses) {
       float streng;
@@ -48,7 +48,7 @@ void ApplyOjas() {
   }
 }
 
-void PushFiringToBuffer() {
+void Neuron::PushFiringToBuffer() {
   fires->Push(FiredFlag());
   firing = false; // shouldn't be necessary but just in case. 
 }
