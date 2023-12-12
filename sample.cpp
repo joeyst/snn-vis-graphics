@@ -289,12 +289,12 @@ const int   SPHERE_SLICES  = 8;
 const int   SPHERE_STACKS  = 8;
 
 const float NEURON_RADIUS  = SPHERE_RADIUS;
-const float NEURON_SPACING = 0.2f * NEURON_RADIUS; 
+const float NEURON_SPACING = 0.5f * NEURON_RADIUS; 
 GLuint neuron;
 void InitNeuronDL();
 void DrawNeuronf(vector<float> xyz, enum Colors color);
 void DrawNeuronf(vector<float> xyz, enum Colors color, float alpha);
-vector<vector<float>> NeuronCoordsList;
+vector<vector<int>> NeuronCoordsList;
 void DrawNeuron(vector<int> xyz, enum Colors color, float alpha);
 
 /* End of Joey's globals, function decls., defines, includes. */
@@ -319,14 +319,14 @@ main( int argc, char *argv[ ] )
 	InitLists( );
 
   NeuronCoordsList = {
-    { 0.0f, 0.0f, 0.0f },
-    { 0.0f, 0.0f, 1.0f },
-    { 0.0f, 0.0f, 2.0f },
-    { 0.0f, 0.0f, 3.0f },
-    { 0.0f, 0.0f, 4.0f },
-    { 0.0f, 0.0f, 5.0f },
-    { 0.0f, 0.0f, 6.0f },
-    { 0.0f, 0.0f, 7.0f },
+    { 0, 0, 0 },
+    { 0, 0, 1 },
+    { 0, 0, 2 },
+    { 0, 0, 3 },
+    { 0, 0, 4 },
+    { 0, 0, 5 },
+    { 0, 0, 6 },
+    { 0, 0, 7 },
   };
 
   // TODO: Add "initialize start coord list". 
@@ -483,10 +483,10 @@ Display( )
 
   for (size_t i = 0; i < NeuronCoordsList.size(); i++) {
     if (i % 2 == 0) {
-      DrawNeuronf(NeuronCoordsList[i], RED);
+      DrawNeuron(NeuronCoordsList[i], RED, 0.5f);
     }
     else {
-      DrawNeuronf(NeuronCoordsList[i], BLUE);
+      DrawNeuron(NeuronCoordsList[i], BLUE, 0.5f);
     }
   }
 
@@ -1385,9 +1385,9 @@ void DrawNeuronf(vector<float> xyz, enum Colors color, float alpha) {
 void DrawNeuron(vector<int> xyz, enum Colors color, float alpha) {
   DrawNeuronf(
     {
-      (float)xyz[0] * (NEURON_RADIUS + NEURON_SPACING),
-      (float)xyz[1] * (NEURON_RADIUS + NEURON_SPACING),
-      (float)xyz[2] * (NEURON_RADIUS + NEURON_SPACING)
+      (float)xyz[0] * (2 * (NEURON_RADIUS + NEURON_SPACING)),
+      (float)xyz[1] * (2 * (NEURON_RADIUS + NEURON_SPACING)),
+      (float)xyz[2] * (2 * (NEURON_RADIUS + NEURON_SPACING))
     }, 
     color, 
     alpha
