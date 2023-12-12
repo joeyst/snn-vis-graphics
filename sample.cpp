@@ -287,6 +287,13 @@ using namespace std;
 #include <vector>
 #include <math.h>
 #include <iostream>
+#include <cmath> 
+
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+#include <glm/gtc/quaternion.hpp>
+
 const float SPHERE_RADIUS  = 0.5f;
 const int   SPHERE_SLICES  = 8;
 const int   SPHERE_STACKS  = 8;
@@ -490,7 +497,7 @@ Display( )
 	//glCallList( BoxList );
 
 
-  for (size_t i = 0; i < NeuronCoordsList.size(); i++) {
+  for (size_t i = 1; i < NeuronCoordsList.size(); i++) {
     if (i % 2 == 0) {
       DrawNeuron(NeuronCoordsList[i], RED, 0.5f);
     }
@@ -501,8 +508,10 @@ Display( )
 
   DrawNeuron({5, 5, 5}, GREEN, 0.5f);
 
-  for (int i = 0; i < 10.f; i++) {
-    DrawSynapse({i, 0, 0}, {5 + i, 5, 5}, {0.f, 1.0f, 0.f, 1.0f});
+for (int j = 0; j < 10.f; j++) {
+    for (int i = 0; i < 10.f; i++) {
+      DrawSynapse({i, j, 0}, {-1 + i, -1 + j, -1}, {0.f, 1.0f, 0.f, 1.0f});
+    }
   }
 
 #ifdef DEMO_Z_FIGHTING
@@ -1447,29 +1456,28 @@ float GetSynapseLength(vector<int> start, vector<int> end) {
   return sqrtf((dxyz[0] * dxyz[0]) + (dxyz[1] * dxyz[1]) + (dxyz[2] * dxyz[2]));
 }
 
-#include <cmath> 
 float atan_deg(float a, float b) {
   return atanf(a / b) * 180.f / F_PI;
 }
 
-#include <iostream> 
 void DrawSynapse(vector<int> start, vector<int> end, vector<Proportion> rgba) {
   glPushMatrix();
   glColor4f(rgba[0], rgba[1], rgba[2], rgba[3]);
-  float x = end[0] - start[0];
-  float y = end[1] - start[1];
-  float z = end[2] - start[2];
-
-  float x_rot = atan_deg(z, y);
-  float y_rot = atan_deg(x, z);
-  float z_rot = atan_deg(y, x);
 
   glTranslatef(start[0], start[1], start[2]);
-  glRotatef(x_rot, 1.0f, 0.f, 0.f);
-  glRotatef(y_rot, 0.f, 1.0f, 0.f);
-  glRotatef(z_rot, 0.f, 0.f, 1.0f);
-  
-  glRotatef(90.f, 1.f, 0.f, 0.f);
+  vector<float> dxyz = {end[0] - start[0], end[1] - start[1], end[2] - start[2]};
+
+  glm::vec3 lineDirection(0.0f, 1.0f, 0.0f); 
+  glm::vec3 targetVector(dxyz[0], dxyz[1], dxyz[2]);
+
+  glm::vec3 rotationAxis = glm::cross(lineDirection, targetVector);
+  rotationAxis = glm::normalize(rotationAxis);
+
+  float rotationAngle = acos(glm::dot(lineDirection, targetVector) / (glm::length(lineDirection) * glm::length(targetVector)));
+  glm::mat4 rotationMatrix = glm::rotate(glm::mat4(1.0f), rotationAngle, rotationAxis);
+  glMultMatrixf(glm::value_ptr(rotationMatrix)); 
+
+  glTranslatef(0.0f, NEURON_RADIUS, 0.0f);
   glScalef(1.f, GetSynapseLength(start, end), 1.f);
   glCallList(synapse);
   glPopMatrix();
