@@ -32,6 +32,18 @@ void Net::Tick() {
   for (auto kv : neuron_id_map) {
     kv.second->SetFiredFlag();
   }
+  for (auto kv : neuron_id_map) {
+    kv.second->ZeroOrDecayEnergy();
+  }
+  for (auto kv : neuron_id_map) {
+    kv.second->AddAssignIncomingEnergy();
+  }
+  for (auto kv : neuron_id_map) {
+    kv.second->ApplyOjas();
+  }
+  for (auto kv : neuron_id_map) {
+    kv.second->PushFiringToBuffer();
+  }
 }
 
 Net::Net() {}
