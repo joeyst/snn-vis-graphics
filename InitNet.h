@@ -17,9 +17,9 @@ NetBuilder net_builder;
 Net* net;
 
 void InitNet() {
-  net_builder.AddRectangle({0, 0, 0}, {4, 4, 4}, {1, 1, 1}, 3);
+  net_builder.AddRectangle({0, 0, 0}, {2, 2, 2}, {2, 2, 2}, 3);
   net_builder.net->neuron_id_map[{0, 0, 0}]->energy = 1.01f;
-  Synapse* synapse = net_builder.net->neuron_id_map[{1, 1, 1}]->synapses[0];
+  Synapse* synapse = net_builder.net->neuron_id_map[{2, 2, 2}]->synapses[0];
   synapse->SetWeight(1.01f);
   net = net_builder.net;
 
