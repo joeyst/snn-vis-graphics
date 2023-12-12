@@ -7,6 +7,18 @@
 Neuron::Neuron(float initialEnergy): energy(initialEnergy), fires(Fires(N_TICKS_TO_TRACK)) {}
 Neuron::Neuron(): energy(0.f), fires(Fires(N_TICKS_TO_TRACK)) {}
 
+void Neuron::SetFiredFlag() {
+  this->firing = EnergyIsAboveThreshold();
+}
+
+bool Neuron::EnergyIsAboveThreshold() {
+  return this->energy > NEURON_FIRE_THRESH;
+}
+
+float Neuron::GetRawIncomingEnergy() {
+  
+}
+
 int Neuron::NumberOfFires() {
   int number_of_fires = 0;
   for (std::size_t i = 0; i < this->fires.GetVector().size(); ++i) {
@@ -34,8 +46,8 @@ void Neuron::ZeroEnergy() {
 }
 
 void Neuron::UpdateEnergy() {
-  fires.Push(fired);
-  if (fired) {
+  fires.Push(firing);
+  if (firing) {
     energy = 0.f;
   }
   else {
@@ -66,12 +78,12 @@ float Neuron::GetTolAdjustedEnergyReceived() {
 
 void Neuron::SetFired() {
   if (energy + GetTolAdjustedEnergyReceived() > NEURON_FIRE_THRESH) {
-    fired = true;
+    firing = true;
   }
 }
 
 float Neuron::Output() {
-  if (fired) {
+  if (firing) {
     return 1.f;
   }
   else {
