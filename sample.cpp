@@ -301,6 +301,8 @@ void DrawNeuron(vector<int> xyz, enum Colors color, Proportion alpha);
 GLuint synapse;
 void InitSynapseDL();
 void DrawSynapse(vector<int> start, vector<int> end, vector<Proportion> rgba);
+vector<float> GetSynapseDXYZ(vector<int> start, vector<int> end);
+float GetSynapseLength(vector<int> start, vector<int> end);
 
 /* End of Joey's globals, function decls., defines, includes. */
 
@@ -494,6 +496,8 @@ Display( )
       DrawNeuron(NeuronCoordsList[i], BLUE, 0.5f);
     }
   }
+
+  DrawSynapse({0, 0, 0}, {5, 5, 5}, {0.f, 0.1f, 0.f, 0.5f});
 
 #ifdef DEMO_Z_FIGHTING
 	if( DepthFightingOn != 0 )
@@ -925,6 +929,7 @@ InitLists( )
 	glEndList( );
 
   InitNeuronDL();
+  InitSynapseDL();
 
 	// create the axes:
 
@@ -1399,10 +1404,36 @@ void DrawNeuron(vector<int> xyz, enum Colors color, Proportion alpha) {
   );
 }
 
-
 void InitSynapseDL() {
   synapse = glGenLists(1);
   glNewList(synapse, GL_COMPILE);
-  OsuCone(0.2f * NEURON_RADIUS, 0.4f * NEURON_RADIUS, 1.f, SPHERE_SLICES, SPHERE_STACKS);
+  OsuCone(0.2f * NEURON_RADIUS, 0.2f * NEURON_RADIUS, 1.f, SPHERE_SLICES, SPHERE_STACKS);
   glEndList();
+}
+
+vector<float> GetSynapseDXYZ(vector<int> start, vector<int> end) {
+  vector<float> dxyz = {(float)(start[0] - end[0]), (float)(start[1] - end[1]), (float)(start[2] - end[2])};
+  for (int i = 0; i < 3; i++) {
+    dxyz[i] = std::abs(dxyz[i]);
+    if (dxyz[i] == 0.f) {
+      dxyz[i] = 0.f;
+    }
+    else {
+      dxyz[i] = (2 * dxyz[i] * (NEURON_RADIUS + NEURON_SPACING)) - NEURON_SPACING;
+    }
+  }
+  return dxyz;
+}
+
+float GetSynapseLength(vector<int> start, vector<int> end) {
+  vector<float> dxyz = GetSynapseDXYZ(start, end);
+  return (dxyz[0] * dxyz[0]) + (dxyz[1] * dxyz[1]) + (dxyz[2] * dxyz[2]);
+}
+
+void DrawSynapse(vector<int> start, vector<int> end, vector<Proportion> rgba) {
+  glPushMatrix();
+  glRotatef(90.f, 1.f, 0.f, 0.f);
+  glColor4f(rgba[0], rgba[1], rgba[2], rgba[3]);
+  glCallList(synapse);
+  glPopMatrix();
 }
