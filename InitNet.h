@@ -19,13 +19,13 @@ Net* net;
 void InitNet() {
   net_builder.AddRectangle({0, 0, 0}, {2, 2, 2}, {2, 2, 2}, 3);
   net_builder.AddRectangle({3, 3, 3}, {5, 5, 5}, {1, 1, 1}, 3);
-  net_builder.net->neuron_id_map[{0, 0, 0}]->energy = 1.01f;
-  net_builder.net->neuron_id_map[{3, 3, 3}]->energy = 1.01f;
-  Synapse* synapse = net_builder.net->neuron_id_map[{2, 2, 2}]->synapses[0];
-  for (Synapse* s : net_builder.net->neuron_id_map[{3, 3, 3}]->synapses) {
+  net_builder.net->GetNeuron({0, 0, 0})->energy = 1.01f;
+  net_builder.net->GetNeuron({3, 3, 3})->energy = 1.01f;
+  Synapse* synapse = net_builder.net->GetNeuron({2, 2, 2})->synapses[0];
+  for (Synapse* s : net_builder.net->GetNeuron({3, 3, 3})->synapses) {
     s->SetWeight(1.01f);
   }
-  vector<Synapse*> synapses_from_777 = net_builder.net->neuron_id_map[{5, 5, 5}]->GetSynapsesByIndex({7, 7, 7});
+  vector<Synapse*> synapses_from_777 = net_builder.net->GetNeuron({5, 5, 5})->GetSynapsesByIndex({7, 7, 7});
   for (Synapse* s : synapses_from_777) {
     s->SetWeight(1.01f);
   }
@@ -56,28 +56,21 @@ void DrawNeuronResting(vector<int> xyz) {
 }
 
 void DrawNet() {
-  for (auto kv : net->neuron_id_map) {
-    Neuron* n = kv.second;
-    vector<int> xyz = kv.first;
+  for (Neuron* n : net->GetNeurons()) {
     if (n->EnergyIsAboveThreshold()) {
-      DrawNeuronFiring(xyz);
+      DrawNeuronFiring(n->xyz);
     }
     else {
-      DrawNeuronResting(xyz);
+      DrawNeuronResting(n->xyz);
     }
   }
 
-  // The following is only for drawing synapses in the first place, not if they're firing or not. 
-  for (auto kv : net->neuron_id_map) {
-    Neuron* n = kv.second;
-    vector<int> xyz = kv.first;
-    for (Synapse* s : n->synapses) {
-      if (s->from.EnergyIsAboveThreshold()) {
-        DrawSynapse(s->from.xyz, n->xyz, {1.0f, 1.0f, 0.0f, 0.2f});
-      }
-      else {
-        DrawSynapse(s->from.xyz, n->xyz, {0.5f, 0.5f, 0.5f, 0.05f});
-      }
+  for (Synapse* s : net->GetSynapses()) {
+    if (s->from.EnergyIsAboveThreshold()) {
+      DrawSynapse(s->from.xyz, s->to.xyz, {1.0f, 1.0f, 0.0f, 0.2f});
+    }
+    else {
+      DrawSynapse(s->from.xyz, s->to.xyz, {0.5f, 0.5f, 0.5f, 0.05f});
     }
   }
 }
