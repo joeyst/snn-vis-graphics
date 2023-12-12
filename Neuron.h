@@ -45,15 +45,12 @@ class Neuron {
     Neuron(float initialEnergy);
     Neuron();
 
-    // Stimulation interface: 
-    void SetFiredFlag();
-
     // Net modification interface: 
     void AddSynapse(Synapse* synapse);
     void AddOutgoingSynapse(Synapse* synapse);
 
     // Stages interface: 
-    void SetFiredFlag();
+    void SetFiredFlag(); // Can be used for stimulation too. 
     void ZeroOrDecayEnergy();
     void AddAssignIncomingEnergy();
     void ApplyOjas();
@@ -64,9 +61,9 @@ class Neuron {
 
     // Primarily for inner logic, but can use outside: 
     float GetIncomingEnergy();
+    bool EnergyIsAboveThreshold();
 
   private:
-    bool EnergyIsAboveThreshold();
     float GetRawIncomingEnergy();
     bool FiredFlag();
     int NumberOfFires();

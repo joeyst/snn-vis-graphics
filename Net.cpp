@@ -30,10 +30,7 @@ void Net::EnableSynapse(PointIds3D from, PointIds3D to) {
 
 void Net::Tick() {
   for (auto kv : neuron_id_map) {
-    kv.second->UpdateSynapses();
-  }
-  for (auto kv : neuron_id_map) {
-    kv.second->UpdateEnergy();
+    kv.second->SetFiredFlag();
   }
 }
 

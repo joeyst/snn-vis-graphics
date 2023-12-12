@@ -49,7 +49,7 @@ void DrawNet() {
   for (auto kv : net->neuron_id_map) {
     Neuron* n = kv.second;
     vector<int> xyz = kv.first;
-    if (n->JustFired()) {
+    if (n->EnergyIsAboveThreshold()) {
       DrawNeuronFiring(xyz);
     }
     else {
