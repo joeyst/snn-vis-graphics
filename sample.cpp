@@ -521,11 +521,11 @@ Display( )
   DrawNet();
   glDisable(GL_BLEND);
 
-for (int j = 0; j < 10.f; j++) {
-    for (int i = 0; i < 10.f; i++) {
-      DrawSynapse({i, j, 0}, {-1 + i, -1 + j, -1}, {0.f, 1.0f, 0.f, 1.0f});
-    }
-  }
+  // for (int j = 0; j < 10.f; j++) {
+  //   for (int i = 0; i < 10.f; i++) {
+  //     DrawSynapse({i, j, 0}, {-1 + i, -1 + j, -1}, {0.f, 1.0f, 0.f, 1.0f});
+  //   }
+  // }
 
 #ifdef DEMO_Z_FIGHTING
 	if( DepthFightingOn != 0 )
@@ -1494,7 +1494,12 @@ void DrawSynapse(vector<int> start, vector<int> end, vector<Proportion> rgba) {
   glPushMatrix();
   glColor4f(rgba[0], rgba[1], rgba[2], rgba[3]);
 
-  glTranslatef(start[0], start[1], start[2]);
+  vector<int> space(3);
+  for (int i = 0; i < 3; i++) {
+    space[i] = (start[i] + 1) * (NEURON_RADIUS + NEURON_SPACING);
+  }
+
+  glTranslatef(space[0], space[1], space[2]);
   vector<float> dxyz = {end[0] - start[0], end[1] - start[1], end[2] - start[2]};
 
   glm::vec3 lineDirection(0.0f, 1.0f, 0.0f); 

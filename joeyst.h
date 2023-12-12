@@ -19,7 +19,7 @@ const int   SPHERE_SLICES  = 8;
 const int   SPHERE_STACKS  = 8;
 
 const float NEURON_RADIUS  = SPHERE_RADIUS;
-const float NEURON_SPACING = 0.5f * NEURON_RADIUS; 
+const float NEURON_SPACING = 5.f * NEURON_RADIUS; 
 GLuint neuron;
 void InitNeuronDL();
 void DrawNeuronf(vector<float> xyz, enum Colors color);
