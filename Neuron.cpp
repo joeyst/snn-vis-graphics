@@ -50,6 +50,7 @@ void ApplyOjas() {
 
 void PushFiringToBuffer() {
   fires->Push(FiredFlag());
+  firing = false; // shouldn't be necessary but just in case. 
 }
 
 float Neuron::GetRawIncomingEnergy() {
