@@ -21,7 +21,7 @@ class NetBuilder {
     void AddMap(PointIds3D start, PointIds3D dxyzs, PointIds3D end, PointIds3D dxyze);
 
   private:
-    // std::vector<
+    NavGraph* nav_graph;
 };
 
 #endif 

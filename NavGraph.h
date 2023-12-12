@@ -1,11 +1,13 @@
 
 class NavNode {
   private:
-    std::vector<int> start;
-    std::vector<int> dxyz;
+    std::vector<int> center;
+    std::vector<int> r_xyz;
+    std::vector<NavNode*> next_nodes
 }
 
 class NavGraph {
   private:
-    std::vector
+    std::vector<NavNode*>;
+    NavNode* current_node;
 }
