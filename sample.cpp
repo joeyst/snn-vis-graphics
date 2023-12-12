@@ -282,6 +282,7 @@ MulArray3(float factor, float a, float b, float c )
 
 /* Joey's globals, function decls., defines, includes. */
 
+typedef float Proportion;
 using namespace std;
 #include <vector>
 const float SPHERE_RADIUS  = 0.5f;
@@ -293,9 +294,13 @@ const float NEURON_SPACING = 0.5f * NEURON_RADIUS;
 GLuint neuron;
 void InitNeuronDL();
 void DrawNeuronf(vector<float> xyz, enum Colors color);
-void DrawNeuronf(vector<float> xyz, enum Colors color, float alpha);
+void DrawNeuronf(vector<float> xyz, enum Colors color, Proportion alpha);
 vector<vector<int>> NeuronCoordsList;
-void DrawNeuron(vector<int> xyz, enum Colors color, float alpha);
+void DrawNeuron(vector<int> xyz, enum Colors color, Proportion alpha);
+
+GLuint synapse;
+void InitSynapseDL();
+void DrawSynapse(vector<int> start, vector<int> end, vector<Proportion> rgba);
 
 /* End of Joey's globals, function decls., defines, includes. */
 
@@ -1369,7 +1374,7 @@ void DrawNeuronf(vector<float> xyz, enum Colors color) {
   glPopMatrix();
 }
 
-void DrawNeuronf(vector<float> xyz, enum Colors color, float alpha) {
+void DrawNeuronf(vector<float> xyz, enum Colors color, Proportion alpha) {
   glPushMatrix();
   glColor4f(
     Colors[color][0],
@@ -1382,7 +1387,7 @@ void DrawNeuronf(vector<float> xyz, enum Colors color, float alpha) {
   glPopMatrix();
 }
 
-void DrawNeuron(vector<int> xyz, enum Colors color, float alpha) {
+void DrawNeuron(vector<int> xyz, enum Colors color, Proportion alpha) {
   DrawNeuronf(
     {
       (float)xyz[0] * (2 * (NEURON_RADIUS + NEURON_SPACING)),
