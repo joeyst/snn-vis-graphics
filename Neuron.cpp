@@ -28,6 +28,10 @@ bool Neuron::FiredFlag() {
   return this->firing;
 }
 
+void AddAssignIncomingEnergy() {
+  this->energy = this->energy + GetIncomingEnergy();
+}
+
 float Neuron::GetRawIncomingEnergy() {
   float res = 0.f;
   for (Synapse* s : synapses) {

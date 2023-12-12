@@ -29,6 +29,7 @@ class Neuron {
   The functions for each of the steps are: 
   1. SetFiredFlag. 
   2. ZeroOrDecayEnergy. 
+  3. AddAssignIncomingEnergy.
   */
   public:
     float energy; 
