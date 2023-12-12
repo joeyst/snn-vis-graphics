@@ -15,6 +15,15 @@ bool Neuron::EnergyIsAboveThreshold() {
   return this->energy > NEURON_FIRE_THRESH;
 }
 
+void Neuron::ZeroOrDecayEnergy() {
+  if (EnergyIsAboveThreshold()) {
+    energy = 0.f;
+  }
+  else {
+    energy = (1 - ENERGY_DECAY_PROP) * energy;
+  }
+}
+
 float Neuron::GetRawIncomingEnergy() {
 
 }

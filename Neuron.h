@@ -25,6 +25,10 @@ class Neuron {
     1. The synapse uses a circular buffer to store the previous weights. 
   5. Push flag variable to circular buffer for firing, so that tolerance in step 3 can be calculated. 
   6. Return to step 1. 
+
+  The functions for each of the steps are: 
+  1. SetFiredFlag. 
+  2. ZeroOrDecayEnergy. 
   */
   public:
     float energy; 
