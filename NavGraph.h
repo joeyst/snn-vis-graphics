@@ -9,23 +9,36 @@
 std::vector<PointIds3D> GetPointIdsInRadius(PointIds3D center, int r);
 
 class NavNode {
+  /*
+  Stores blocks of neurons. 
+  Statistics functions. 
+  */
   public:
-    bool Overlaps(PointIds3D xyz_id_);
+    std::vector<PointIds3D> PointIds();
 
   private:
     std::vector<int> xyz_id;
     int r;
-    std::vector<NavNode*> next_nodes;
     std::vector<Neuron*> neurons;
 };
 
 class NavGraph {
-  void AddNode(PointIds3D xyz_id, int r);
+  /*
+  Stores current location in grid of blocks. 
+  Provides interface for stimulating or inhibiting the current block. 
+  */
+  void AddNode(int r);
+  void RemoveNode();
+  void Move(PointIds3D dxyz_id);
+  void Stimulate();
+  void Inhibit();
+
+  NavNode* GetCurrentNode();
+  NavNode* GetNode(PointIds3D xyz_id);
+
   private:
-    bool HasNode(PointIds3D xyz_id);
-    std::unordered_map<PointIds3D, NavNode*, container_hash> nodes;
+    std::unordered_map<PointIds3D, NavNode*, container_hash<PointIds3D>> nodes;
     PointIds3D current;
-    std::unordered_set<PointIds3D, container_hash> occupied;
 };
 
 #endif

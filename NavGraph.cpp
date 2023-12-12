@@ -13,14 +13,6 @@ std::vector<PointIds3D> GetPointIdsInRadius(PointIds3D center, int r) {
   }
 }
 
-PointIds3D NavNode::DXYZ(PointIds3D xyz_id_) {
-  PointIds3D dxyz_id(0);
-  for (int i = 0; i < 3; i++) {
-    dxyz_id[i] = xyz_id_[i] - xyz_id[i];
-  } 
-  return dxyz_id;
-}
-
 PointIds3D NavNode::AbsDXYZ(PointIds3D xyz_id_) {
   PointIds3D dxyz_id = DXYZ(xyz_id_);
   PointIds3D abs_dxyz_id(3);
@@ -28,6 +20,10 @@ PointIds3D NavNode::AbsDXYZ(PointIds3D xyz_id_) {
     abs_dxyz_id[i] = abs(dxyz_id[i]);
   }
   return abs_dxyz_id;
+}
+
+std::vector<PointIds3D> NavNode::PointIds() {
+  return ::GetPointIdsInRadius(xyz_id, r);
 }
 
 bool NavNode::Overlaps(PointIds3D xyz_id_) {
@@ -46,7 +42,22 @@ bool NavGraph::HasNode(PointIds3D xyz_id_) {
 void NavGraph::AddNode(PointIds3D xyz_id_, int r) {
   NavNode* node = new NavNode(xyz_id_, r);
   nodes[xyz_id_] = node;
-  for (PointIds3D p : node->PointIds) {
-    occupied.insert(p);
+}
+
+NavNode* NavGraph::GetNode(PointIds3D xyz_id_) {
+  return nodes[xyz_id_];
+}
+
+NavNode* NavGraph::GetCurrentNode() {
+  return GetNode(current);
+}
+
+void NavGraph::RemoveNode() {
+  delete GetCurrentNode();
+}
+
+void NavGraph::Move(PointIds3D xyz_id) {
+  for (int i = 0; i < 3; i++) {
+    current[i] += xyz_id[i];
   }
 }
