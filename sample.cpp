@@ -273,7 +273,7 @@ MulArray3(float factor, float a, float b, float c )
 //#include "setmaterial.cpp"
 //#include "setlight.cpp"
 #include "osusphere.cpp"
-//#include "osucone.cpp"
+#include "osucone.cpp"
 //#include "osutorus.cpp"
 //#include "bmptotexture.cpp"
 //#include "loadobjfile.cpp"
@@ -1397,4 +1397,12 @@ void DrawNeuron(vector<int> xyz, enum Colors color, Proportion alpha) {
     color, 
     alpha
   );
+}
+
+
+void InitSynapseDL() {
+  synapse = glGenLists(1);
+  glNewList(synapse, GL_COMPILE);
+  OsuCone(0.2f * NEURON_RADIUS, 0.4f * NEURON_RADIUS, 1.f, SPHERE_SLICES, SPHERE_STACKS);
+  glEndList();
 }
