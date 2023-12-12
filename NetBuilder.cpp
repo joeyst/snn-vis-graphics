@@ -36,3 +36,16 @@ void NetBuilder::AddRectangle(PointIds3D start, PointIds3D dxyz, PointIds3D step
     }
   }
 }
+
+void NetBuilder::AddMap(PointIds3D start, PointIds3D dxyzs, PointIds3D end, PointIds3D dxyze) {
+  std::vector<PointIds3D> start_points = GetCoordsInRectangularPrism(start, dxyzs);
+  std::vector<PointIds3D> end_points = GetCoordsInRectangularPrism(end, dxyze);
+
+  for (auto start_point : start_points) {
+    for (auto end_point : end_points) {
+      net->EnableNeuron(start_point);
+      net->EnableNeuron(end_point);
+      net->EnableSynapse(start_point, end_point);
+    }
+  }
+}

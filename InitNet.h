@@ -28,12 +28,8 @@ void InitNet() {
   for (Synapse* s : synapses_from_777) {
     s->SetWeight(1.01f);
   }
-  net_builder.AddRectangle({7, 7, 7}, {2, 1, 2}, {1, 1, 1}, 2);
-  net_builder.net->EnableSynapse({7, 7, 7}, {-5, 5, 5});
-  net_builder.net->EnableSynapse({-5, 5, 5}, {0, 0, 0});
-  net_builder.net->EnableSynapse({-5, 5, 5}, {3, 3, 3});
-
-  
+  net_builder.AddMap({6, 6, 6}, {2, 2, 2}, {-5, 5, 5}, {2, 2, 2});
+  net_builder.AddMap({-5, 5, 5}, {2, 2, 2}, {0, 0, 0}, {2, 2, 2});
   
   net = net_builder.net;
 

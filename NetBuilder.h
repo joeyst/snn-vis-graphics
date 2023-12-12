@@ -18,6 +18,10 @@ class NetBuilder {
     Net *net;
     void AddRectangle(PointIds3D start, PointIds3D dxyz, PointIds3D step, std::size_t n);
     NetBuilder();
+    void AddMap(PointIds3D start, PointIds3D dxyzs, PointIds3D end, PointIds3D dxyze);
+
+  private:
+    // std::vector<
 };
 
 #endif 

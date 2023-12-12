@@ -15,8 +15,8 @@ using namespace std;
 #include <glm/gtc/quaternion.hpp>
 
 const float SPHERE_RADIUS  = 0.5f;
-const int   SPHERE_SLICES  = 8;
-const int   SPHERE_STACKS  = 8;
+const int   SPHERE_SLICES  = 2;
+const int   SPHERE_STACKS  = 2;
 
 const float NEURON_RADIUS  = SPHERE_RADIUS;
 const float NEURON_SPACING = 5.f * NEURON_RADIUS; 
