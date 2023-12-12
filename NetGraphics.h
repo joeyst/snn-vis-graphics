@@ -1,6 +1,6 @@
 
-#ifndef _INIT_NET_H
-#define _INIT_NET_H
+#ifndef _NET_GRAPHICS_H 
+#define _NET_GRAPHICS_H 
 
 #include "utils.h"
 #include <vector>

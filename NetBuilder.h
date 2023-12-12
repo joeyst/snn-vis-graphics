@@ -2,6 +2,7 @@
 #include "Net.h"
 #include "Point3D.h"
 #include "Direction.h"
+#include "NavGraph.h"
 
 #ifndef _NET_BUILDER_H
 #define _NET_BUILDER_H

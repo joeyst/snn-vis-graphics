@@ -1,6 +1,6 @@
 
 /* Joey's globals, function decls., defines, includes. */
-#include "InitNet.h"
+#include "NetGraphics.h"
 
 typedef float Proportion;
 using namespace std;
