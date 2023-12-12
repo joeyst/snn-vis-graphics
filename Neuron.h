@@ -30,6 +30,7 @@ class Neuron {
   1. SetFiredFlag. 
   2. ZeroOrDecayEnergy. 
   3. AddAssignIncomingEnergy.
+  4. ApplyOjas. 
   */
   public:
     float energy; 

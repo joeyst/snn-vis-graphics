@@ -32,6 +32,22 @@ void AddAssignIncomingEnergy() {
   this->energy = this->energy + GetIncomingEnergy();
 }
 
+void ApplyOjas() {
+  if (EnergyIsAboveThreshold()) {
+    for (Synapse* s : synapses) {
+      float streng;
+      float forget = s->weight;
+      if (s->from.FiredFlag()) {
+        streng = 1.f;
+      }
+      else {
+        streng = 0.f;
+      }
+      s->SetWeight(s->GetWeight() + (LEARNING_RATE * (streng + forget)));
+    }
+  }
+}
+
 float Neuron::GetRawIncomingEnergy() {
   float res = 0.f;
   for (Synapse* s : synapses) {
