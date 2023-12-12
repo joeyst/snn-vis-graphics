@@ -7,6 +7,13 @@
 #ifndef _NET_H
 #define _NET_H
 
+enum InitMode {
+  INIT_MODE_RANDOM,
+  INIT_MODE_ZERO,
+  INIT_MODE_ONE,
+  INIT_MODE_NUMBER
+};
+
 class Net {
   public:
     void EnableNeuron(PointIds3D xyz);
@@ -20,9 +27,12 @@ class Net {
     std::vector<Synapse*> GetSynapses();
 
   private:
+    InitMode init_mode;
     std::unordered_map<PointIds3D, Neuron*, container_hash<PointIds3D>> neuron_id_map;
     bool HasNeuron(PointIds3D xyz);
     void ForceEnableNeuron(PointIds3D xyz);
+    float init_number;
+    float GetModeValue();
 };
 
 #endif

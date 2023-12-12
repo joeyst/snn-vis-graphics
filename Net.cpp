@@ -1,10 +1,29 @@
 
 #include "Net.h"
 #include <iostream>
+#include "utils.h"
+
+float Net::GetModeValue() {
+  if (init_mode == INIT_MODE_RANDOM) {
+    return RandomWeight();
+  }
+  else if (init_mode == INIT_MODE_ZERO) {
+    return 0.f;
+  }
+  else if (init_mode == INIT_MODE_ONE) {
+    return 1.f;
+  }
+  else {
+    std::cout << "Error: invalid init_mode: " << init_mode << std::endl;
+    exit(1);
+  }
+}
 
 void Net::EnableNeuron(PointIds3D xyz) {
   if (!HasNeuron(xyz)) {
     ForceEnableNeuron(xyz);
+    Neuron* n = GetNeuron(xyz);
+    n->energy = GetModeValue();
   }
 }
 
@@ -42,6 +61,7 @@ void Net::EnableSynapse(PointIds3D from, PointIds3D to) {
   Neuron* sender = neuron_id_map[from];
   Neuron* receiver = neuron_id_map[to];
   Synapse* synapse = new Synapse(*sender, *receiver);
+  synapse->OverwriteWeight(GetModeValue());
   receiver->AddSynapse(synapse);
   sender->AddOutgoingSynapse(synapse);
 }
@@ -64,7 +84,7 @@ void Net::Tick() {
   }
 }
 
-Net::Net() {}
+Net::Net() : init_number(0.3f), init_mode(INIT_MODE_RANDOM) {}
 
 void Net::Print() {
   std::cout << "Net =====" << std::endl;

@@ -21,6 +21,7 @@ class Synapse {
     Synapse(Neuron& from, Neuron& to);
     float GetWeight();
     void  SetWeight(float weight);
+    void OverwriteWeight(float weight);
 };
 
 #endif

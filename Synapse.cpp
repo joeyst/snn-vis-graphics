@@ -19,3 +19,7 @@ float Synapse::GetWeight() {
 void Synapse::SetWeight(float weight) {
   weights.Push(weight);
 }
+
+void Synapse::OverwriteWeight(float weight) {
+  weights.Overwrite(weight);
+}

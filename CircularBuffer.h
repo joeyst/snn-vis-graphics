@@ -16,6 +16,10 @@ public:
         buffer[currentIndex] = item;
     }
 
+    void Overwrite(const T& item) {
+        buffer[currentIndex] = item;
+    }
+
     // Function to access elements
     T& operator[](std::size_t index) {
         return buffer[(currentIndex + index) % buffer.size()];
