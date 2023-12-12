@@ -3,3 +3,4 @@ glm/*
 *.bmp
 *.a
 sample
+*.o

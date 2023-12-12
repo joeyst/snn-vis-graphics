@@ -97,3 +97,13 @@ void Neuron::Print() {
     std::cout << "  " << synapse->from.xyz[0] << " " << synapse->from.xyz[1] << " " << synapse->from.xyz[2] << "=>" << synapse->to.xyz[0] << " " << synapse->to.xyz[1] << " " << synapse->to.xyz[2] << " w: " << synapse->GetWeight() << std::endl;
   }
 }
+
+std::vector<Synapse*> Neuron::GetSynapsesByIndex(std::vector<int> xyz_) {
+  std::vector<Synapse*> synapses_(0);
+  for (Synapse* s : synapses) {
+    if (s->from.xyz == xyz_) {
+      synapses_.push_back(s);
+    }
+  }
+  return synapses_;
+}

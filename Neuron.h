@@ -49,6 +49,9 @@ class Neuron {
     void AddSynapse(Synapse* synapse);
     void AddOutgoingSynapse(Synapse* synapse);
 
+    // Net information interface: 
+    std::vector<Synapse*> GetSynapsesByIndex(std::vector<int> xyz);
+
     // Stages interface: 
     void SetFiredFlag(); // Can be used for stimulation too. 
     void ZeroOrDecayEnergy();
