@@ -990,6 +990,11 @@ Keyboard( unsigned char c, int x, int y )
 			NowProjection = PERSP;
 			break;
 
+    case 'f':
+    case 'F':
+      TickNet();
+      break;
+
 		case 'q':
 		case 'Q':
 		case ESCAPE:

@@ -72,4 +72,8 @@ void DrawNet() {
   }
 }
 
+void TickNet() {
+  net->Tick();
+}
+
 #endif
