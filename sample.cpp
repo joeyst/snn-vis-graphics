@@ -285,6 +285,7 @@ MulArray3(float factor, float a, float b, float c )
 typedef float Proportion;
 using namespace std;
 #include <vector>
+#include <math.h>
 const float SPHERE_RADIUS  = 0.5f;
 const int   SPHERE_SLICES  = 8;
 const int   SPHERE_STACKS  = 8;
@@ -1419,7 +1420,7 @@ vector<float> GetSynapseDXYZ(vector<int> start, vector<int> end) {
       dxyz[i] = 0.f;
     }
     else {
-      dxyz[i] = (2 * dxyz[i] * (NEURON_RADIUS + NEURON_SPACING)) - NEURON_SPACING;
+      dxyz[i] = (2 * dxyz[i] * (NEURON_RADIUS + NEURON_SPACING)) - NEURON_RADIUS;
     }
   }
   return dxyz;
@@ -1427,13 +1428,14 @@ vector<float> GetSynapseDXYZ(vector<int> start, vector<int> end) {
 
 float GetSynapseLength(vector<int> start, vector<int> end) {
   vector<float> dxyz = GetSynapseDXYZ(start, end);
-  return (dxyz[0] * dxyz[0]) + (dxyz[1] * dxyz[1]) + (dxyz[2] * dxyz[2]);
+  return sqrtf((dxyz[0] * dxyz[0]) + (dxyz[1] * dxyz[1]) + (dxyz[2] * dxyz[2]));
 }
 
 void DrawSynapse(vector<int> start, vector<int> end, vector<Proportion> rgba) {
   glPushMatrix();
   glRotatef(90.f, 1.f, 0.f, 0.f);
   glColor4f(rgba[0], rgba[1], rgba[2], rgba[3]);
+  glScalef(1.f, GetSynapseLength(start, end), 1.f);
   glCallList(synapse);
   glPopMatrix();
 }
