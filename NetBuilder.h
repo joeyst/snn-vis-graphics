@@ -11,7 +11,9 @@ class Block {
   public:
     PointIds3D xyz_id;
     int r;
-}
+    PointIds3D GetAdjusted();
+    Block(PointIds3D xyz_id, int r);
+};
 
 PointCoords3D GetBlockCoords(PointIds3D xyz_id);
 
@@ -27,6 +29,10 @@ class NetBuilder {
     Net *net;
     std::vector<Block> blocks;
 
+    void Move(PointIds3D dxyz_id);
+    void Stimulate();
+    void Inhibit();
+
     void AddBlock(PointIds3D xyz_id, int radius);
     void AddPathway(PointIds3D from, PointIds3D to, int radius);
 
@@ -36,6 +42,8 @@ class NetBuilder {
     void AddMapByCenter(PointIds3D start_center, PointIds3D start_rxyz, PointIds3D end_center, PointIds3D end_rxyz);
     std::vector<Neuron*> GetNeuronsInRadius(PointIds3D center, int r);
     std::vector<Synapse*> GetSynapsesInRadius(PointIds3D center, int r);
+
+    // Stats. 
     float NFiresPerSecond(PointIds3D center, int r);
     float TotalEnergy(PointIds3D center, int r);
     float AverageTolerance(PointIds3D center, int r);
@@ -44,8 +52,14 @@ class NetBuilder {
     float AverageSynapseChange(PointIds3D center, int r);
 
     // Drawing functions. 
-    void DrawBlock(PointIds3D xyz_id, int radius);
-    void DrawPathway(PointIds3D from, PointIds3D to, int radius);
+    void Draw(); // <== USE THIS ONE. 
+    void DrawBlocks(); // TODO: Add text statistics. 
+    void DrawNeurons();
+    void DrawSynapses();
+    // void DrawPathway(PointIds3D from, PointIds3D to, int radius);
+
+  private:
+    PointIds3D curr_xyz_id;
 };
 
 #endif 

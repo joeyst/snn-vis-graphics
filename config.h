@@ -19,6 +19,6 @@ const int   SPHERE_STACKS  = 2;
 const float NEURON_RADIUS  = SPHERE_RADIUS;
 const float NEURON_SPACING = 5.f * NEURON_RADIUS; 
 
-const float BLOCK_SPACING = 7.f;
+const int BLOCK_SPACING = 7;
 
 #endif 

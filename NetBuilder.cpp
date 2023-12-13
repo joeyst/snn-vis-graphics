@@ -3,15 +3,22 @@
 #include "utils.h"
 #include "Point3D.h"
 #include "Net.h"
-#include "NavGraph.h"
 #include "config.h"
 #include "Draw.h"
 
 NetBuilder::NetBuilder() {
   net = new Net();
+  AddBlock({0, 0, 0}, 3);
 }
 
+Block::Block(PointIds3D xyz_id, int r) {
+  this->xyz_id = xyz_id;
+  this->r = r;
+}
 
+PointIds3D GetBlockAdjusted(PointIds3D xyz_id) {
+  return { xyz_id[0] * BLOCK_SPACING, xyz_id[1] * BLOCK_SPACING, xyz_id[2] * BLOCK_SPACING };
+}
 
 PointCoords3D GetBlockCoords(PointIds3D xyz_id) {
   PointCoords3D res(3);
@@ -21,8 +28,20 @@ PointCoords3D GetBlockCoords(PointIds3D xyz_id) {
   return res;
 }
 
+PointIds3D Block::GetAdjusted() {
+  return GetBlockAdjusted(xyz_id);
+
+}
+
 void NetBuilder::AddBlock(PointIds3D xyz_id, int radius) {
   blocks.push_back(Block { xyz_id, radius });
+  for (int x = xyz_id[0] - radius; x < xyz_id[0] + radius; x++) {
+    for (int y = xyz_id[1] - radius; y < xyz_id[1] + radius; y++) {
+      for (int z = xyz_id[2] - radius; z < xyz_id[2] + radius; z++) {
+        net->EnableNeuron({x, y, z});
+      }
+    }
+  }
 }
 
 void NetBuilder::AddPathway(PointIds3D from, PointIds3D to, int radius) {
@@ -30,18 +49,95 @@ void NetBuilder::AddPathway(PointIds3D from, PointIds3D to, int radius) {
   // 2. Get the 
 }
 
-void NetBuilder::DrawBlock(PointIds3D xyz_id, int radius) {
-   if (n == nav_graph->GetCurrentNode()) {
-      DrawBox(n->xyz_id, n->r, {0.0f, 1.0f, 0.0f, 0.2f});
+void NetBuilder::Move(PointIds3D dxyz_id) {
+  curr_xyz_id[0] += dxyz_id[0];
+  curr_xyz_id[1] += dxyz_id[1];
+  curr_xyz_id[2] += dxyz_id[2];
+}
+
+void NetBuilder::Stimulate() {
+}
+
+void NetBuilder::Draw() {
+  DrawBlocks();
+  DrawNeurons();
+  DrawSynapses();
+}
+
+void NetBuilder::DrawBlocks() {
+  for (auto b : blocks) {
+    if (b.xyz_id == curr_xyz_id) {
+      DrawBox(b.GetAdjusted(), b.r, {0.0f, 1.0f, 0.0f, 0.2f});
     }
     else {
-      DrawBox(n->xyz_id, n->r, {0.0f, 0.0f, 1.0f, 0.1f});
+      DrawBox(b.GetAdjusted(), b.r, {0.0f, 0.0f, 1.0f, 0.1f});
     }
+  }
 }
 
-void NetBuilder::DrawPathway(PointIds3D from, PointIds3D to, int radius) {
-
+void NetBuilder::DrawNeurons() {
+  for (Neuron* n : net->GetNeurons()) {
+    if (n->EnergyIsAboveThreshold()) {
+      DrawNeuronFiring(n->xyz);
+    }
+    else {
+      DrawNeuronResting(n->xyz);
+    }
+  }
 }
+
+void NetBuilder::DrawSynapses() {
+  for (Synapse* s : net->GetSynapses()) {
+    if (s->from.EnergyIsAboveThreshold()) {
+      DrawSynapse(s->from.xyz, s->to.xyz, {1.0f, 1.0f, 0.0f, 0.2f});
+    }
+    else {
+      DrawSynapse(s->from.xyz, s->to.xyz, {0.5f, 0.5f, 0.5f, 0.05f});
+    }
+  }
+}
+
+/*
+void NetBuilder::DrawPathway(PointIds3D from_center, PointIds3D to_center, int block_radius, int tube_radius) {
+  // First, get the direction that is going. Just the sign. 
+
+  // Next, create new neurons of the smaller radius, until hitting (to_center - direction). 
+
+  // For each new set of neurons, store the old ones. 
+
+  // To reiterate; the start is a regular size; of block_radius. The end is a regular size; of block_radius. 
+  // The intermediate layers are of tube_radius. 
+
+  // First, get normed direction. (1, 0, 0) or (-1, 0, 0) or (0, 1, 0), ... . 
+  PointIds3D direction(3);
+  for (int i = 0; i < 3; i++) {
+    if (to_center[i] - from_center[i] > 0) {
+      direction[i] = 1;
+    }
+    else if (to_center[i] - from_center[i] < 0) {
+      direction[i] = -1;
+    }
+    else {
+      direction[i] = 0;
+    }
+  }
+
+  std::vector<PointIds3D> layers(0);
+  // Adding the first layer's neurons. 
+
+  int radx = if (direction[0] == 0) { block_radius; } else { 1; };
+  int rady = if (direction[1] == 0) { block_radius; } else { 1; };
+  int radz = if (direction[2] == 0) { block_radius; } else { 1; };
+
+  for (int x = from_center[0] - radx; x < from_center[0] + radx; x++) {
+    for (int y = from_center[1] - rady; y < from_center[1] + rady; y++) {
+      for (int z = from_center[2] - radz; z < from_center[2] + radz; z++) {
+        layers.push_back({x, y, z});
+      }
+    }
+  }
+}
+*/
 
 void NetBuilder::AddRectangle(PointIds3D start, PointIds3D dxyz, PointIds3D step, std::size_t n) {
   std::vector<PointIds3D> start_points = GetCoordsInRectangularPrism(start, dxyz);

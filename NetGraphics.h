@@ -10,7 +10,6 @@
 #include "Neuron.h"
 #include "Net.h"
 #include "NetBuilder.h"
-#include "NavGraph.h"
 #include "Draw.h"
 
 using namespace std;
@@ -23,13 +22,9 @@ void TickNet();
 void DrawNet();
 
 /* User interaction. */
-void Move(vector<int> xyz);
-void Stimulate();
-void Inhibit();
 
 /* Helper functions. */
 void DrawNeurons();
 void DrawSynapses();
-void DrawNavNodes();
 
 #endif
