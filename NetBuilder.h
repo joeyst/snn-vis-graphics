@@ -33,6 +33,7 @@ class NetBuilder {
     void AddRectangle(PointIds3D start, PointIds3D dxyz, PointIds3D step, std::size_t n);
     NetBuilder();
     void AddMap(PointIds3D start, PointIds3D dxyzs, PointIds3D end, PointIds3D dxyze);
+    void AddMapByCenter(PointIds3D start_center, PointIds3D start_rxyz, PointIds3D end_center, PointIds3D end_rxyz);
     std::vector<Neuron*> GetNeuronsInRadius(PointIds3D center, int r);
     std::vector<Synapse*> GetSynapsesInRadius(PointIds3D center, int r);
     float NFiresPerSecond(PointIds3D center, int r);

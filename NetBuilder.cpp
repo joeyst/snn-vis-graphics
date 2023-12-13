@@ -30,74 +30,6 @@ void NetBuilder::AddPathway(PointIds3D from, PointIds3D to, int radius) {
   // 2. Get the 
 }
 
-void NetBuilder::AddPathway(PointIds3D from, PointIds3D to, int radius) {
-  PointIds3D dif(3);
-  for (int i = 0; i < 3; i++) {
-    dif[i] = to[i] - from[i];
-  }
-  PointIds3D from_perim = from;
-  PointIds3D to_perim = to;
-  for (int i = 0; i < 3; i++) {
-    if (dif[i] != 0) {
-      from_perim[i] += radius;
-      to_perim[i] -= radius;
-    }
-  }
-
-  // Calculating the AddRectangle parameters. center + radius => corner + dxyz. 
-  for (int i = 0; i < 3; i++) {
-    if (dif[i] == 0) {
-      from_perim[i] -= radius;
-      to_perim[i] += radius;
-    }
-  }
-
-  PointIds3D dxyz(3);
-  for (int i = 0; i < 3; i++) {
-    // If there isn't a difference in coords in that dimension, the dxyz is the 
-    // radius-- making a square along the side of the cube. 
-    if (dif[i] == 0) {
-      dxyz[i] = radius;
-    }
-    else {
-      dxyz[i] = 0;
-    }
-  }
-
-  PointIds3D step(3);
-  for (int i = 0; i < 3; i++) {
-    if (dif[i] != 0) {
-      if (dif[i] < 0) {
-        step[i] = -1;
-      }
-      else {
-        step[i] = 1;
-      }
-    }
-    else {
-      step[i] = 0;
-    }
-  }
-  
-  // Now has start, dxyz, step. 
-  int n;
-  for (int i = 0; i < 3; i++) {
-    if ((to[i] - from[i]) != 0) {
-      n = (to[i] - from[i]);
-    }
-  }
-  n = std::abs(n);
-
-  // Getting the slice one closer from from to to. 
-  PointIds3D from_perim2 = from;
-
-
-  // n (the difference in indices) is guaranteed to be at least two. 
-  AddRectangle(from_perim, dxyz
-  AddMap(from_perim, dxyz, 
-  AddRectangle(from_perim, dxyz, step, n);
-}
-
 void NetBuilder::DrawBlock(PointIds3D xyz_id, int radius) {
    if (n == nav_graph->GetCurrentNode()) {
       DrawBox(n->xyz_id, n->r, {0.0f, 1.0f, 0.0f, 0.2f});
@@ -144,6 +76,32 @@ void NetBuilder::AddMap(PointIds3D start, PointIds3D dxyzs, PointIds3D end, Poin
   std::vector<PointIds3D> start_points = GetCoordsInRectangularPrism(start, dxyzs);
   std::vector<PointIds3D> end_points = GetCoordsInRectangularPrism(end, dxyze);
 
+  for (auto start_point : start_points) {
+    for (auto end_point : end_points) {
+      net->EnableNeuron(start_point);
+      net->EnableNeuron(end_point);
+      net->EnableSynapse(start_point, end_point);
+    }
+  }
+}
+
+void NetBuilder::AddMapByCenter(PointIds3D start_center, PointIds3D start_rxyz, PointIds3D end_center, PointIds3D end_rxyz) {
+  std::vector<PointIds3D> start_points(0);
+  for (int x = start_center[0] - start_rxyz[0]; x < start_center[0] + start_rxyz[0]; x++) {
+    for (int y = start_center[1] - start_rxyz[1]; y < start_center[1] + start_rxyz[1]; y++) {
+      for (int z = start_center[2] - start_rxyz[2]; z < start_center[2] + start_rxyz[2]; z++) {
+        start_points.push_back({x, y, z});
+      }
+    }
+  }
+  std::vector<PointIds3D> end_points(0);
+  for (int x = end_center[0] - end_rxyz[0]; x < end_center[0] + end_rxyz[0]; x++) {
+    for (int y = end_center[1] - end_rxyz[1]; y < end_center[1] + end_rxyz[1]; y++) {
+      for (int z = end_center[2] - end_rxyz[2]; z < end_center[2] + end_rxyz[2]; z++) {
+        end_points.push_back({x, y, z});
+      }
+    }
+  }
   for (auto start_point : start_points) {
     for (auto end_point : end_points) {
       net->EnableNeuron(start_point);
