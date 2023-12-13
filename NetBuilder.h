@@ -15,8 +15,6 @@ class Block {
     Block(PointIds3D xyz_id, int r);
 };
 
-PointCoords3D GetBlockCoords(PointIds3D xyz_id);
-
 class NetBuilder {
   /*
   AddRectangle: 

@@ -8,7 +8,7 @@
 
 NetBuilder::NetBuilder() {
   net = new Net();
-  AddBlock({0, 0, 0}, 3);
+  // AddBlock({0, 0, 0}, 3);
 }
 
 Block::Block(PointIds3D xyz_id, int r) {
@@ -20,14 +20,6 @@ PointIds3D GetBlockAdjusted(PointIds3D xyz_id) {
   return { xyz_id[0] * BLOCK_SPACING, xyz_id[1] * BLOCK_SPACING, xyz_id[2] * BLOCK_SPACING };
 }
 
-PointCoords3D GetBlockCoords(PointIds3D xyz_id) {
-  PointCoords3D res(3);
-  for (int i = 0; i < 3; i++) {
-    res[i] = xyz_id[i] * (NEURON_RADIUS + NEURON_SPACING) * 7.f;
-  }
-  return res;
-}
-
 PointIds3D Block::GetAdjusted() {
   return GetBlockAdjusted(xyz_id);
 
@@ -35,13 +27,10 @@ PointIds3D Block::GetAdjusted() {
 
 void NetBuilder::AddBlock(PointIds3D xyz_id, int radius) {
   blocks.push_back(Block { xyz_id, radius });
-  for (int x = xyz_id[0] - radius; x < xyz_id[0] + radius; x++) {
-    for (int y = xyz_id[1] - radius; y < xyz_id[1] + radius; y++) {
-      for (int z = xyz_id[2] - radius; z < xyz_id[2] + radius; z++) {
-        net->EnableNeuron({x, y, z});
-      }
-    }
-  }
+  // Subtracting from radius. 
+  PointIds3D corner = {xyz_id[0] - radius, xyz_id[1] - radius, xyz_id[2] - radius};
+  std::cout << "2 * radius: " << 2 * radius << std::endl;
+  AddRectangle(xyz_id, {2 * radius, 2 * radius, 1}, {0, 0, 1}, 2 * radius);
 }
 
 void NetBuilder::AddPathway(PointIds3D from, PointIds3D to, int radius) {
@@ -67,10 +56,12 @@ void NetBuilder::Draw() {
 void NetBuilder::DrawBlocks() {
   for (auto b : blocks) {
     if (b.xyz_id == curr_xyz_id) {
-      DrawBox(b.GetAdjusted(), b.r, {0.0f, 1.0f, 0.0f, 0.2f});
+      std::cout << "b.xyz_id" << b.xyz_id[0] << ", " << b.xyz_id[1] << ", " << b.xyz_id[2] << std::endl;
+      DrawBox(b.xyz_id, b.r, {0.0f, 1.0f, 0.0f, 0.5f});
     }
     else {
-      DrawBox(b.GetAdjusted(), b.r, {0.0f, 0.0f, 1.0f, 0.1f});
+      std::cout << "b.xyz_id" << b.xyz_id[0] << ", " << b.xyz_id[1] << ", " << b.xyz_id[2] << std::endl;
+      DrawBox(b.xyz_id, b.r, {0.0f, 0.0f, 1.0f, 0.5f});
     }
   }
 }

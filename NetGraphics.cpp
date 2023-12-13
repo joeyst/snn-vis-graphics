@@ -34,32 +34,7 @@ void TickNet() {
 }
 
 void DrawNet() {
-  DrawNeurons();
-  DrawSynapses();
+  net_builder->Draw();
 }
 
 /* User interaction. */
-
-/* Helper functions. */
-
-void DrawNeurons() {
-  for (Neuron* n : net->GetNeurons()) {
-    if (n->EnergyIsAboveThreshold()) {
-      DrawNeuronFiring(n->xyz);
-    }
-    else {
-      DrawNeuronResting(n->xyz);
-    }
-  }
-}
-
-void DrawSynapses() {
-  for (Synapse* s : net->GetSynapses()) {
-    if (s->from.EnergyIsAboveThreshold()) {
-      DrawSynapse(s->from.xyz, s->to.xyz, {1.0f, 1.0f, 0.0f, 0.2f});
-    }
-    else {
-      DrawSynapse(s->from.xyz, s->to.xyz, {0.5f, 0.5f, 0.5f, 0.05f});
-    }
-  }
-}
