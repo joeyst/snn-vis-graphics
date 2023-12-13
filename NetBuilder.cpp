@@ -10,6 +10,18 @@ NetBuilder::NetBuilder() {
   net = new Net();
 }
 
+PointCoords3D GetBlockCoords(PointIds3D xyz_id) {
+  PointCoords3D res(3);
+  for (int i = 0; i < 3; i++) {
+    res[i] = xyz_id[i] * (NEURON_RADIUS + NEURON_SPACING) * 7.f;
+  }
+  return res;
+}
+
+void NetBuilder::AddBlock(PointIds3D xyz_id, int radius) {
+
+}
+
 void NetBuilder::AddRectangle(PointIds3D start, PointIds3D dxyz, PointIds3D step, std::size_t n) {
   std::vector<PointIds3D> start_points = GetCoordsInRectangularPrism(start, dxyz);
   std::vector<std::vector<PointIds3D>> layers(0);

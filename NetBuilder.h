@@ -7,6 +7,8 @@
 #ifndef _NET_BUILDER_H
 #define _NET_BUILDER_H
 
+PointCoords3D GetBlockCoords(PointIds3D xyz_id);
+
 class NetBuilder {
   /*
   AddRectangle: 
@@ -17,6 +19,10 @@ class NetBuilder {
   */
   public:
     Net *net;
+
+    void AddBlock(PointIds3D xyz_id, int radius);
+    void AddPathway(PointIds3D from, PointIds3D to, int radius, int step);
+
     void AddRectangle(PointIds3D start, PointIds3D dxyz, PointIds3D step, std::size_t n);
     NetBuilder();
     void AddMap(PointIds3D start, PointIds3D dxyzs, PointIds3D end, PointIds3D dxyze);
