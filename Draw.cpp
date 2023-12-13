@@ -20,6 +20,7 @@ void DrawNeuron(vector<int> xyz, vector<Proportion> rgba) {
 }
 
 void DrawSynapse(vector<int> start, vector<int> end, vector<Proportion> rgba) {
+  /* ADAPTED FROM CHATGPT WITH HELP FROM A FRIEND OF MINE. */
   glPushMatrix();
   glColor4f(rgba[0], rgba[1], rgba[2], rgba[3]);
 
@@ -30,7 +31,6 @@ void DrawSynapse(vector<int> start, vector<int> end, vector<Proportion> rgba) {
 
   glTranslatef(start_coords[0], start_coords[1], start_coords[2]);
 
-  // Rotating to be parallel with line in 3D. 
   glm::vec3 lineDirection(0.0f, 1.0f, 0.0f); 
   glm::vec3 targetVector(dxyz[0], dxyz[1], dxyz[2]);
 
