@@ -81,3 +81,38 @@ float NetBuilder::NFiresPerSecond(PointIds3D center, int r) {
   }
   return res / N_TICKS_TO_TRACK;
 }
+
+float NetBuilder::TotalEnergy(PointIds3D center, int r) {
+  float res = 0.f;
+  for (Neuron* neuron : GetNeuronsInRadius(center, r)) {
+    res += neuron->energy;
+  }
+  return res;
+}
+
+float NetBuilder::AverageTolerance(PointIds3D center, int r) {
+  float res = 0.f;
+  for (Neuron* neuron : GetNeuronsInRadius(center, r)) {
+    res += neuron->GetTolFactor();
+  }
+  return res / (float)GetNeuronsInRadius(center, r).size();
+}
+
+float NetBuilder::SynapticVariance(PointIds3D center, int r) {
+  float res = 0.f;
+  std::vector<float> weights(0);
+  for (Synapse* synapse : GetSynapsesInRadius(center, r)) {
+    weights.push_back(synapse->GetWeight());
+  }
+
+  float sum = 0.f;
+  for (float weight : weights) {
+    sum += weight;
+  }
+  float mean = sum / (float)weights.size();
+
+  for (float weight : weights) {
+    res += (weight - mean) * (weight - mean);
+  }
+  return res / (float)weights.size();
+}

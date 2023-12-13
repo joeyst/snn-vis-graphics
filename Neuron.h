@@ -52,6 +52,7 @@ class Neuron {
 
     // Net information interface: 
     std::vector<Synapse*> GetSynapsesByIndex(std::vector<int> xyz);
+    std::size_t NFires();
 
     // Stages interface: 
     void SetFiredFlag(); // Can be used for stimulation too. 
@@ -66,12 +67,12 @@ class Neuron {
     // Primarily for inner logic, but can use outside: 
     float GetIncomingEnergy();
     bool EnergyIsAboveThreshold();
+    float GetTolFactor();
 
   private:
     float GetRawIncomingEnergy();
     bool FiredFlag();
     int NumberOfFires();
-    float GetTolFactor();
   };
 
 #endif 

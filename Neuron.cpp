@@ -108,3 +108,13 @@ std::vector<Synapse*> Neuron::GetSynapsesByIndex(std::vector<int> xyz_) {
   }
   return synapses_;
 }
+
+std::size_t Neuron::NFires() {
+  std::size_t res = 0;
+  for (bool fired : fires->GetVector()) {
+    if (fired) {
+      res++;
+    }
+  }
+  return res;
+}
