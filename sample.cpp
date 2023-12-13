@@ -505,17 +505,6 @@ Display( )
 	//glCallList( BoxList );
 
 
-  for (size_t i = 1; i < NeuronCoordsList.size(); i++) {
-    if (i % 2 == 0) {
-      DrawNeuron(NeuronCoordsList[i], RED, 0.5f);
-    }
-    else {
-      DrawNeuron(NeuronCoordsList[i], BLUE, 0.5f);
-    }
-  }
-
-  DrawNeuron({5, 5, 5}, GREEN, 0.5f);
-
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   DrawNet();

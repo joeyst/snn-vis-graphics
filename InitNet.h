@@ -18,6 +18,12 @@ Net* net;
 
 void InitNet() {
   net_builder.AddRectangle({0, 0, 0}, {2, 2, 2}, {2, 2, 2}, 4);
+  net_builder.AddRectangle({0, 0, 0}, {2, 2, 2}, {0, 0, 2}, 5);
+  net_builder.AddRectangle({0, 0, 8}, {2, 2, 2}, {-2, 0, 0}, 5);
+  net_builder.AddRectangle({8, 0, 8}, {2, 2, 2}, {-1, 0, -1}, 10);
+  net_builder.AddRectangle({-8, 0, 8}, {2, 2, 2}, {1, 0, -1}, 10);
+  net_builder.AddRectangle({0, 0, 8}, {2, 2, 2}, {2, 2, 0}, 5);
+  net_builder.AddRectangle({8, 8, 8}, {2, 2, 2}, {-2, -2, 0}, 5);
   net_builder.net->GetNeuron({0, 0, 0})->energy = 1.01f;
   net_builder.net->GetNeuron({3, 3, 3})->energy = 1.01f;
   Synapse* synapse = net_builder.net->GetNeuron({2, 2, 2})->synapses[0];
