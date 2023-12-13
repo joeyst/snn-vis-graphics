@@ -21,8 +21,6 @@ class NavNode {
 
     std::vector<int> xyz_id;
     int r;
-
-  private:
     std::vector<Neuron*> neurons;
 };
 

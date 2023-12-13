@@ -6,6 +6,7 @@
 #include "Point3D.h"
 #include <unordered_set>
 #include "NavNode.h"
+#include "NetBuilder.h"
 
 class NavGraph {
   /*
@@ -14,6 +15,9 @@ class NavGraph {
   */
 
   public: 
+    NavGraph();
+    NetBuilder* net_builder;
+
     void Move(PointIds3D dxyz_id);
     void Stimulate();
     void Inhibit();

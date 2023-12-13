@@ -2,11 +2,11 @@
 #include "Net.h"
 #include "Point3D.h"
 #include "Direction.h"
-#include "NavGraph.h"
 
 #ifndef _NET_BUILDER_H
 #define _NET_BUILDER_H
 
+class NavGraph;
 class NetBuilder {
   /*
   AddRectangle: 
@@ -17,7 +17,6 @@ class NetBuilder {
   */
   public:
     Net *net;
-    NavGraph* nav_graph;
     void AddRectangle(PointIds3D start, PointIds3D dxyz, PointIds3D step, std::size_t n);
     NetBuilder();
     void AddMap(PointIds3D start, PointIds3D dxyzs, PointIds3D end, PointIds3D dxyze);

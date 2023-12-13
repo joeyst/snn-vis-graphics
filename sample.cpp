@@ -342,21 +342,6 @@ main( int argc, char *argv[ ] )
 
 	InitLists( );
 
-  NeuronCoordsList = {
-    { 0, 0, 0 },
-    { 0, 0, 1 },
-    { 0, 0, 2 },
-    { 0, 0, 3 },
-    { 0, 0, 4 },
-    { 0, 0, 5 },
-    { 0, 0, 6 },
-    { 0, 0, 7 },
-  };
-
-  // TODO: Add "initialize start coord list". 
-
-  
-
 	// init all the global variables used by Display( ):
 	// this will also post a redisplay
 
@@ -503,18 +488,6 @@ Display( )
 	// draw the box object by calling up its display list:
 
 	//glCallList( BoxList );
-
-
-  for (size_t i = 1; i < NeuronCoordsList.size(); i++) {
-    if (i % 2 == 0) {
-      DrawNeuron(NeuronCoordsList[i], RED, 0.5f);
-    }
-    else {
-      DrawNeuron(NeuronCoordsList[i], BLUE, 0.5f);
-    }
-  }
-
-  DrawNeuron({5, 5, 5}, GREEN, 0.5f);
 
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

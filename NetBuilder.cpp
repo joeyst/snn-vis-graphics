@@ -7,7 +7,6 @@
 
 NetBuilder::NetBuilder() {
   net = new Net();
-  nav_graph = new NavGraph();
 }
 
 void NetBuilder::AddRectangle(PointIds3D start, PointIds3D dxyz, PointIds3D step, std::size_t n) {
