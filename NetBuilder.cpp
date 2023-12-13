@@ -3,9 +3,11 @@
 #include "utils.h"
 #include "Point3D.h"
 #include "Net.h"
+#include "NavGraph.h"
 
 NetBuilder::NetBuilder() {
   net = new Net();
+  nav_graph = new NavGraph();
 }
 
 void NetBuilder::AddRectangle(PointIds3D start, PointIds3D dxyz, PointIds3D step, std::size_t n) {

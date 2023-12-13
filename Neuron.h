@@ -44,6 +44,7 @@ class Neuron {
   public:
     Neuron(float initialEnergy);
     Neuron();
+    Neuron(PointIds3D xyz);
 
     // Net modification interface: 
     void AddSynapse(Synapse* synapse);

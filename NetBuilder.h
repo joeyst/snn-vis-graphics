@@ -17,12 +17,10 @@ class NetBuilder {
   */
   public:
     Net *net;
+    NavGraph* nav_graph;
     void AddRectangle(PointIds3D start, PointIds3D dxyz, PointIds3D step, std::size_t n);
     NetBuilder();
     void AddMap(PointIds3D start, PointIds3D dxyzs, PointIds3D end, PointIds3D dxyze);
-
-  private:
-    NavGraph* nav_graph;
 };
 
 #endif 

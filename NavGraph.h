@@ -12,14 +12,18 @@ class NavGraph {
   Stores current location in grid of blocks. 
   Provides interface for stimulating or inhibiting the current block. 
   */
-  void AddNode(int r);
-  void RemoveNode();
+
   void Move(PointIds3D dxyz_id);
   void Stimulate();
   void Inhibit();
 
   NavNode* GetCurrentNode();
+  void AddCurrentNode(int r);
+  // void RemoveCurrentNode();
+
   NavNode* GetNode(PointIds3D xyz_id);
+  void AddNode(PointIds3D xyz_id, int r);
+  //void RemoveNode(PointIds3D xyz_id);
 
   private:
     std::unordered_map<PointIds3D, NavNode*, container_hash<PointIds3D>> nodes;

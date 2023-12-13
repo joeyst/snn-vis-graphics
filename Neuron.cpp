@@ -6,6 +6,7 @@
 
 Neuron::Neuron(float initialEnergy): energy(initialEnergy), fires(new Fires(N_TICKS_TO_TRACK)) {}
 Neuron::Neuron(): energy(0.f), fires(new Fires(N_TICKS_TO_TRACK)) {}
+Neuron::Neuron(PointIds3D xyz): energy(0.f), fires(new Fires(N_TICKS_TO_TRACK)), xyz(xyz) {}
 
 void Neuron::SetFiredFlag() {
   this->firing = EnergyIsAboveThreshold();

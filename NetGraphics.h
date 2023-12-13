@@ -10,11 +10,13 @@
 #include "Neuron.h"
 #include "Net.h"
 #include "NetBuilder.h"
+#include "NavGraph.h"
 
 using namespace std;
 
 NetBuilder net_builder;
 Net* net;
+NavGraph* nav_graph;
 
 void InitNet() {
   net_builder.AddRectangle({0, 0, 0}, {2, 2, 2}, {2, 2, 2}, 4);
@@ -32,6 +34,7 @@ void InitNet() {
   net_builder.AddMap({-5, 5, 5}, {2, 2, 2}, {0, 0, 0}, {2, 2, 2});
   
   net = net_builder.net;
+  nav_graph = net_builder.nav_graph;
 
   // net_builder.net.Print();
 
