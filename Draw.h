@@ -3,13 +3,12 @@
 #define _DRAW_H
 
 #include "includes.h"
-
-GLuint neuron;
-GLuint synapse;
-GLuint box;
+#include "config.h"
 
 /* Drawing Neurons, Synapses, and Boxes. */
 void DrawNeuron(vector<int> xyz, vector<Proportion> rgba);
+void DrawNeuronFiring(vector<int> xyz);
+void DrawNeuronResting(vector<int> xyz);
 void DrawSynapse(vector<int> start, vector<int> end, vector<Proportion> rgba);
 void DrawBox(vector<int> center, int r, vector<Proportion> rgba);
 

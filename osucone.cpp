@@ -5,6 +5,8 @@
 #include <ctype.h>
 
 #include <GL/gl.h>
+#include "osucone.h"
+#include "fn_decls.h"
 
 #ifndef F_PI
 #define F_PI		((float)(M_PI))

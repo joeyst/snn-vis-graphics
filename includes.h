@@ -13,8 +13,8 @@
 
 //#include "setmaterial.cpp"
 //#include "setlight.cpp"
-#include "osusphere.cpp"
-#include "osucone.cpp"
+#include "osusphere.h"
+#include "osucone.h"
 //#include "osutorus.cpp"
 //#include "bmptotexture.cpp"
 //#include "loadobjfile.cpp"

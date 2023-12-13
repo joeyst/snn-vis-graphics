@@ -11,36 +11,25 @@
 #include "Net.h"
 #include "NetBuilder.h"
 #include "NavGraph.h"
+#include "Draw.h"
 
 using namespace std;
 
-NetBuilder* net_builder;
-Net* net;
-NavGraph* nav_graph;
-vector<vector<int>> NeuronCoordsList;
 
+
+/* Rendering + logic. */
 void InitNet();
-
-typedef float Proportion;
-void DrawNeuron(vector<int> xyz, vector<Proportion> rgba);
-void DrawSynapse(vector<int> start, vector<int> end, vector<Proportion> rgba);
-
-void DrawNeuronFiring(vector<int> xyz) {
-  DrawNeuron(xyz, { 1.0f, 1.0f, 0.0f, 0.7f });
-}
-
-void DrawNeuronResting(vector<int> xyz) {
-  DrawNeuron(xyz, { 0.5f, 0.5f, 0.5f, 0.3f });
-}
-
+void TickNet();
 void DrawNet();
 
-void TickNet();
-
+/* User interaction. */
 void Move(vector<int> xyz);
-
 void Stimulate();
-
 void Inhibit();
+
+/* Helper functions. */
+void DrawNeurons();
+void DrawSynapses();
+void DrawNavNodes();
 
 #endif

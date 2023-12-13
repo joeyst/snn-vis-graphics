@@ -1,6 +1,13 @@
 
 #include "NetGraphics.h"
+#include "Draw.h"
 
+NetBuilder* net_builder;
+Net* net;
+NavGraph* nav_graph;
+vector<vector<int>> NeuronCoordsList;
+
+/* Rendering + logic. */
 void InitNet() {
   nav_graph = new NavGraph();
 
@@ -21,6 +28,31 @@ void InitNet() {
   
   net = net_builder->net;
 }
+
+void TickNet() {
+  net->Tick();
+}
+
+void DrawNet() {
+  DrawNeurons();
+  DrawSynapses();
+  DrawNavNodes();
+}
+
+/* User interaction. */
+void Move(vector<int> xyz) {
+  nav_graph->Move(xyz);
+}
+
+void Stimulate() {
+  nav_graph->Stimulate();
+}
+
+void Inhibit() {
+  nav_graph->Inhibit();
+}
+
+/* Helper functions. */
 
 void DrawNeurons() {
   for (Neuron* n : net->GetNeurons()) {
@@ -44,7 +76,6 @@ void DrawSynapses() {
   }
 }
 
-void DrawBox(vector<int> center, int r, vector<Proportion> rgba);
 void DrawNavNodes() {
   for (NavNode* n : nav_graph->GetNavNodes()) {
     if (n == nav_graph->GetCurrentNode()) {
@@ -54,34 +85,4 @@ void DrawNavNodes() {
       DrawBox(n->xyz_id, n->r, {0.0f, 0.0f, 1.0f, 0.1f});
     }
   }
-}
-
-void DrawNeuronFiring(vector<int> xyz) {
-  DrawNeuron(xyz, { 1.0f, 1.0f, 0.0f, 0.7f });
-}
-
-void DrawNeuronResting(vector<int> xyz) {
-  DrawNeuron(xyz, { 0.5f, 0.5f, 0.5f, 0.3f });
-}
-
-void DrawNet() {
-  DrawNeurons();
-  DrawSynapses();
-  DrawNavNodes();
-}
-
-void TickNet() {
-  net->Tick();
-}
-
-void Move(vector<int> xyz) {
-  nav_graph->Move(xyz);
-}
-
-void Stimulate() {
-  nav_graph->Stimulate();
-}
-
-void Inhibit() {
-  nav_graph->Inhibit();
 }

@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <ctype.h>
+#include "osusphere.h"
 
 #include <GL/gl.h>
 

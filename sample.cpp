@@ -18,6 +18,8 @@
 #endif
 
 #include "includes.h"
+#include "NetGraphics.h"
+#include "Draw.h"
 
 //	This is a sample OpenGL / GLUT program
 //
@@ -229,10 +231,6 @@ MulArray3(float factor, float a, float b, float c )
 	array[3] = 1.;
 	return array;
 }
-
-// these are here for when you need them -- just uncomment the ones you need:
-
-#include "joeyst.h"
 
 // main program:
 

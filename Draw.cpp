@@ -1,6 +1,10 @@
 
 #include "Draw.h"
 
+GLuint neuron;
+GLuint synapse;
+GLuint box;
+
 /* Drawing Neurons, Synapses, and Boxes. */
 void DrawNeuron(vector<int> xyz, vector<Proportion> rgba) {
   glPushMatrix();
@@ -17,6 +21,14 @@ void DrawNeuron(vector<int> xyz, vector<Proportion> rgba) {
   );
   glCallList(neuron);
   glPopMatrix();
+}
+
+void DrawNeuronFiring(vector<int> xyz) {
+  DrawNeuron(xyz, { 1.0f, 1.0f, 0.0f, 0.7f });
+}
+
+void DrawNeuronResting(vector<int> xyz) {
+  DrawNeuron(xyz, { 0.5f, 0.5f, 0.5f, 0.3f });
 }
 
 void DrawSynapse(vector<int> start, vector<int> end, vector<Proportion> rgba) {
@@ -130,7 +142,6 @@ void InitBoxDL() {
 
 
 /* Synapse rotation logic. */
-
 vector<float> GetCoordsFromPoint(vector<int> point) {
   vector<float> coords(3);
   for (int i = 0; i < 3; i++) {
