@@ -1286,66 +1286,6 @@ void InitNeuronDL() {
   glEndList();
 }
 
-void DrawNeuronf(vector<float> xyz, enum Colors color) {
-  glPushMatrix();
-  glColor3f(
-    Colors[color][0],
-    Colors[color][1],
-    Colors[color][2]
-  );
-  glTranslatef(xyz[0], xyz[1], xyz[2]);
-  for (auto i : xyz) {
-  }
-  glCallList(neuron);
-  glPopMatrix();
-}
-
-void DrawNeuronf(vector<float> xyz, enum Colors color, Proportion alpha) {
-  glPushMatrix();
-  glColor4f(
-    Colors[color][0],
-    Colors[color][1],
-    Colors[color][2],
-    alpha
-  );
-  // std::cout << "DrawNeuronf === " << std::endl;
-  // for (int i = 0; i < xyz.size(); i++) {
-  //   std::cout << "i:" << i << " | " << xyz[i] << std::endl;
-  // }
-  glTranslatef(xyz[0], xyz[1], xyz[2]);
-  glCallList(neuron);
-  glPopMatrix();
-}
-
-void DrawNeuron(vector<int> xyz, enum Colors color, Proportion alpha) {
-  DrawNeuronf(
-    {
-      (float)xyz[0] * (2 * (NEURON_RADIUS + NEURON_SPACING)),
-      (float)xyz[1] * (2 * (NEURON_RADIUS + NEURON_SPACING)),
-      (float)xyz[2] * (2 * (NEURON_RADIUS + NEURON_SPACING))
-    }, 
-    color, 
-    alpha
-  );
-}
-
-void DrawNeuron(vector<int> xyz, vector<Proportion> rgba) {
-  glPushMatrix();
-  glColor4f(
-    rgba[0],
-    rgba[1],
-    rgba[2],
-    rgba[3]
-  );
-  glTranslatef(
-    (float)xyz[0] * (2 * (NEURON_RADIUS + NEURON_SPACING)),
-    (float)xyz[1] * (2 * (NEURON_RADIUS + NEURON_SPACING)),
-    (float)xyz[2] * (2 * (NEURON_RADIUS + NEURON_SPACING))
-  );
-  glCallList(neuron);
-  glPopMatrix();
-}
-
 void InitSynapseDL() {
   synapse = glGenLists(1);
   glNewList(synapse, GL_COMPILE);

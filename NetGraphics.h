@@ -17,6 +17,7 @@ using namespace std;
 NetBuilder* net_builder;
 Net* net;
 NavGraph* nav_graph;
+vector<vector<int>> NeuronCoordsList;
 
 void InitNet();
 
