@@ -12,9 +12,11 @@ const float ENERGY_DECAY_PROP  = 0.1f;
 const std::size_t N_TICKS_TO_TRACK = 32;
 const std::size_t N_LAST_WEIGHTS_TO_STORE = 32;
 
-// const float NEURON_SIZE        = 1.f;
-// const float NEURON_SPACING     = 0.5f;
-// const float NEURON_TOTAL_DIST  = NEURON_SIZE + NEURON_SPACING;
-// const float SYNAPSE_FILL_PROP  = 0.8f;
+const float SPHERE_RADIUS  = 0.5f;
+const int   SPHERE_SLICES  = 2;
+const int   SPHERE_STACKS  = 2;
+
+const float NEURON_RADIUS  = SPHERE_RADIUS;
+const float NEURON_SPACING = 5.f * NEURON_RADIUS; 
 
 #endif 

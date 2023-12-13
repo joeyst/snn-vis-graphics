@@ -17,11 +17,7 @@
 #pragma warning(disable:4996)
 #endif
 
-#include "glew.h"
-#include <GL/gl.h>
-#include <GL/glu.h>
-#include "glut.h"
-
+#include "includes.h"
 
 //	This is a sample OpenGL / GLUT program
 //
@@ -192,40 +188,6 @@ float	Time;					// used for animation, this has a value between 0. and 1.
 int		Xmouse, Ymouse;			// mouse values
 float	Xrot, Yrot;				// rotation angles in degrees
 
-
-// function prototypes:
-
-void	Animate( );
-void	Display( );
-void	DoAxesMenu( int );
-void	DoColorMenu( int );
-void	DoDepthBufferMenu( int );
-void	DoDepthFightingMenu( int );
-void	DoDepthMenu( int );
-void	DoDebugMenu( int );
-void	DoMainMenu( int );
-void	DoProjectMenu( int );
-void	DoRasterString( float, float, float, char * );
-void	DoStrokeString( float, float, float, float, char * );
-float	ElapsedSeconds( );
-void	InitGraphics( );
-void	InitLists( );
-void	InitMenus( );
-void	Keyboard( unsigned char, int, int );
-void	MouseButton( int, int, int, int );
-void	MouseMotion( int, int );
-void	Reset( );
-void	Resize( int, int );
-void	Visibility( int );
-
-void			Axes( float );
-void			HsvRgb( float[3], float [3] );
-void			Cross(float[3], float[3], float[3]);
-float			Dot(float [3], float [3]);
-float			Unit(float [3], float [3]);
-float			Unit(float [3]);
-
-
 // utility to create an array from 3 separate values:
 
 float *
@@ -270,56 +232,7 @@ MulArray3(float factor, float a, float b, float c )
 
 // these are here for when you need them -- just uncomment the ones you need:
 
-//#include "setmaterial.cpp"
-//#include "setlight.cpp"
-#include "osusphere.cpp"
-#include "osucone.cpp"
-//#include "osutorus.cpp"
-//#include "bmptotexture.cpp"
-//#include "loadobjfile.cpp"
-//#include "keytime.cpp"
-//#include "glslprogram.cpp"
-
 #include "joeyst.h"
-
-/*
-// Joey's globals, function decls., defines, includes. 
-
-
-typedef float Proportion;
-using namespace std;
-#include <vector>
-#include <math.h>
-#include <iostream>
-#include <cmath> 
-
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-#include <glm/gtc/quaternion.hpp>
-
-const float SPHERE_RADIUS  = 0.5f;
-const int   SPHERE_SLICES  = 8;
-const int   SPHERE_STACKS  = 8;
-
-const float NEURON_RADIUS  = SPHERE_RADIUS;
-const float NEURON_SPACING = 0.5f * NEURON_RADIUS; 
-GLuint neuron;
-void InitNeuronDL();
-void DrawNeuronf(vector<float> xyz, enum Colors color);
-void DrawNeuronf(vector<float> xyz, enum Colors color, Proportion alpha);
-vector<vector<int>> NeuronCoordsList;
-void DrawNeuron(vector<int> xyz, enum Colors color, Proportion alpha);
-
-GLuint synapse;
-void InitSynapseDL();
-void DrawSynapse(vector<int> start, vector<int> end, vector<Proportion> rgba);
-vector<float> GetSynapseDXYZ(vector<int> start, vector<int> end);
-float GetSynapseLength(vector<int> start, vector<int> end);
-
-//  End of Joey's globals, function decls., defines, includes. 
-
-*/
 
 // main program:
 

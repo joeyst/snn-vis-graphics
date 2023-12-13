@@ -2,24 +2,9 @@
 /* Joey's globals, function decls., defines, includes. */
 #include "NetGraphics.h"
 
-typedef float Proportion;
-using namespace std;
-#include <vector>
-#include <math.h>
-#include <iostream>
-#include <cmath> 
+#include "includes.h"
 
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-#include <glm/gtc/quaternion.hpp>
 
-const float SPHERE_RADIUS  = 0.5f;
-const int   SPHERE_SLICES  = 2;
-const int   SPHERE_STACKS  = 2;
-
-const float NEURON_RADIUS  = SPHERE_RADIUS;
-const float NEURON_SPACING = 5.f * NEURON_RADIUS; 
 GLuint neuron;
 void InitNeuronDL();
 void DrawNeuronf(vector<float> xyz, enum Colors color);
