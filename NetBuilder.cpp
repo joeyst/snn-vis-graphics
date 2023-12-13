@@ -4,6 +4,7 @@
 #include "Point3D.h"
 #include "Net.h"
 #include "NavGraph.h"
+#include "config.h"
 
 NetBuilder::NetBuilder() {
   net = new Net();
@@ -61,4 +62,22 @@ std::vector<Neuron*> NetBuilder::GetNeuronsInRadius(PointIds3D center, int r) {
     }
   }
   return res;
+}
+
+std::vector<Synapse*> NetBuilder::GetSynapsesInRadius(PointIds3D center, int r) {
+  std::vector<Synapse*> res(0);
+  for (Neuron* neuron : GetNeuronsInRadius(center, r)) {
+    for (Synapse* synapse : neuron->synapses) {
+      res.push_back(synapse);
+    }
+  }
+  return res;
+}
+
+float NetBuilder::NFiresPerSecond(PointIds3D center, int r) {
+  float res = 0.f;
+  for (Neuron* neuron : GetNeuronsInRadius(center, r)) {
+    res += neuron->NFires();
+  }
+  return res / N_TICKS_TO_TRACK;
 }

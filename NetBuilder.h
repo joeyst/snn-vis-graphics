@@ -22,7 +22,13 @@ class NetBuilder {
     NetBuilder();
     void AddMap(PointIds3D start, PointIds3D dxyzs, PointIds3D end, PointIds3D dxyze);
     std::vector<Neuron*> GetNeuronsInRadius(PointIds3D center, int r);
-
+    std::vector<Synapse*> GetSynapsesInRadius(PointIds3D center, int r);
+    float NFiresPerSecond(PointIds3D center, int r);
+    float TotalEnergy(PointIds3D center, int r);
+    float AverageTolerance(PointIds3D center, int r);
+    float SynapticVariance(PointIds3D center, int r);
+    float AverageSynapseWeight(PointIds3D center, int r);
+    float AverageSynapseChange(PointIds3D center, int r);
 };
 
 #endif 
