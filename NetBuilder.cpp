@@ -5,10 +5,13 @@
 #include "Net.h"
 #include "NavGraph.h"
 #include "config.h"
+#include "Draw.h"
 
 NetBuilder::NetBuilder() {
   net = new Net();
 }
+
+
 
 PointCoords3D GetBlockCoords(PointIds3D xyz_id) {
   PointCoords3D res(3);
@@ -19,6 +22,92 @@ PointCoords3D GetBlockCoords(PointIds3D xyz_id) {
 }
 
 void NetBuilder::AddBlock(PointIds3D xyz_id, int radius) {
+  blocks.push_back(Block { xyz_id, radius });
+}
+
+void NetBuilder::AddPathway(PointIds3D from, PointIds3D to, int radius) {
+  // 1. Get the radius of the PointIds3D. 
+  // 2. Get the 
+}
+
+void NetBuilder::AddPathway(PointIds3D from, PointIds3D to, int radius) {
+  PointIds3D dif(3);
+  for (int i = 0; i < 3; i++) {
+    dif[i] = to[i] - from[i];
+  }
+  PointIds3D from_perim = from;
+  PointIds3D to_perim = to;
+  for (int i = 0; i < 3; i++) {
+    if (dif[i] != 0) {
+      from_perim[i] += radius;
+      to_perim[i] -= radius;
+    }
+  }
+
+  // Calculating the AddRectangle parameters. center + radius => corner + dxyz. 
+  for (int i = 0; i < 3; i++) {
+    if (dif[i] == 0) {
+      from_perim[i] -= radius;
+      to_perim[i] += radius;
+    }
+  }
+
+  PointIds3D dxyz(3);
+  for (int i = 0; i < 3; i++) {
+    // If there isn't a difference in coords in that dimension, the dxyz is the 
+    // radius-- making a square along the side of the cube. 
+    if (dif[i] == 0) {
+      dxyz[i] = radius;
+    }
+    else {
+      dxyz[i] = 0;
+    }
+  }
+
+  PointIds3D step(3);
+  for (int i = 0; i < 3; i++) {
+    if (dif[i] != 0) {
+      if (dif[i] < 0) {
+        step[i] = -1;
+      }
+      else {
+        step[i] = 1;
+      }
+    }
+    else {
+      step[i] = 0;
+    }
+  }
+  
+  // Now has start, dxyz, step. 
+  int n;
+  for (int i = 0; i < 3; i++) {
+    if ((to[i] - from[i]) != 0) {
+      n = (to[i] - from[i]);
+    }
+  }
+  n = std::abs(n);
+
+  // Getting the slice one closer from from to to. 
+  PointIds3D from_perim2 = from;
+
+
+  // n (the difference in indices) is guaranteed to be at least two. 
+  AddRectangle(from_perim, dxyz
+  AddMap(from_perim, dxyz, 
+  AddRectangle(from_perim, dxyz, step, n);
+}
+
+void NetBuilder::DrawBlock(PointIds3D xyz_id, int radius) {
+   if (n == nav_graph->GetCurrentNode()) {
+      DrawBox(n->xyz_id, n->r, {0.0f, 1.0f, 0.0f, 0.2f});
+    }
+    else {
+      DrawBox(n->xyz_id, n->r, {0.0f, 0.0f, 1.0f, 0.1f});
+    }
+}
+
+void NetBuilder::DrawPathway(PointIds3D from, PointIds3D to, int radius) {
 
 }
 
