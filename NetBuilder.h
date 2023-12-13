@@ -7,7 +7,6 @@
 #ifndef _NET_BUILDER_H
 #define _NET_BUILDER_H
 
-class NavGraph;
 class NetBuilder {
   /*
   AddRectangle: 
