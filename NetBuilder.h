@@ -12,8 +12,8 @@ class NetBuilder {
   /*
   AddRectangle: 
     start => starting point. 
-    width => (N, M, 0) | (N, 0, M) | (0, N, M). Creates initial plane. N and M can be negative. 
-    dxyz  => jump rate in each dimension. 
+    dxyz  => (N, M, 0) | (N, 0, M) | (0, N, M). Creates initial plane. N and M can be negative. 
+    step  => jump rate in each dimension. 
     n     => number of layers. 
   */
   public:
@@ -22,7 +22,7 @@ class NetBuilder {
     NetBuilder();
     void AddMap(PointIds3D start, PointIds3D dxyzs, PointIds3D end, PointIds3D dxyze);
     std::vector<Neuron*> GetNeuronsInRadius(PointIds3D center, int r);
-    
+
 };
 
 #endif 
