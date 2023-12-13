@@ -50,3 +50,15 @@ void NetBuilder::AddMap(PointIds3D start, PointIds3D dxyzs, PointIds3D end, Poin
     }
   }
 }
+
+std::vector<Neuron*> NetBuilder::GetNeuronsInRadius(PointIds3D center, int r) {
+  std::vector<Neuron*> res(0);
+  for (int x = center[0] - r; x < center[0] + r; x++) {
+    for (int y = center[1] - r; y < center[1] + r; y++) {
+      for (int z = center[2] - r; z < center[2] + r; z++) {
+        res.push_back(net->GetNeuron({x, y, z}));
+      }
+    }
+  }
+  return res;
+}
