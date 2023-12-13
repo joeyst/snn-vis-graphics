@@ -1534,3 +1534,70 @@ void DrawSynapse(vector<int> start, vector<int> end, vector<Proportion> rgba) {
   glCallList(synapse);
   glPopMatrix();
 }
+
+void InitBoxDL() {
+    glNewList( box, GL_COMPILE );
+		glBegin( GL_QUADS );
+
+    float dx = 1.f;
+    float dy = 1.f;
+    float dz = 1.f;
+
+			glColor3f( 1., 0., 0. );
+
+				glNormal3f( 1., 0., 0. );
+					glVertex3f(  dx, -dy,  dz );
+					glVertex3f(  dx, -dy, -dz );
+					glVertex3f(  dx,  dy, -dz );
+					glVertex3f(  dx,  dy,  dz );
+
+				glNormal3f(-1., 0., 0.);
+					glVertex3f( -dx, -dy,  dz);
+					glVertex3f( -dx,  dy,  dz );
+					glVertex3f( -dx,  dy, -dz );
+					glVertex3f( -dx, -dy, -dz );
+
+			glColor3f( 0., 1., 0. );
+
+				glNormal3f(0., 1., 0.);
+					glVertex3f( -dx,  dy,  dz );
+					glVertex3f(  dx,  dy,  dz );
+					glVertex3f(  dx,  dy, -dz );
+					glVertex3f( -dx,  dy, -dz );
+
+				glNormal3f(0., -1., 0.);
+					glVertex3f( -dx, -dy,  dz);
+					glVertex3f( -dx, -dy, -dz );
+					glVertex3f(  dx, -dy, -dz );
+					glVertex3f(  dx, -dy,  dz );
+
+			glColor3f(0., 0., 1.);
+
+				glNormal3f(0., 0., 1.);
+					glVertex3f(-dx, -dy, dz);
+					glVertex3f( dx, -dy, dz);
+					glVertex3f( dx,  dy, dz);
+					glVertex3f(-dx,  dy, dz);
+
+				glNormal3f(0., 0., -1.);
+					glVertex3f(-dx, -dy, -dz);
+					glVertex3f(-dx,  dy, -dz);
+					glVertex3f( dx,  dy, -dz);
+					glVertex3f( dx, -dy, -dz);
+
+		glEnd( );
+
+	glEndList( );
+}
+
+void DrawBox(vector<int> center, int r, vector<Proportion> rgba) {
+  glPushMatrix();
+  glColor4f(rgba[0], rgba[1], rgba[2], rgba[3]);
+  glTranslatef(
+    (float)center[0] * (2 * (NEURON_RADIUS + NEURON_SPACING)),
+    (float)center[1] * (2 * (NEURON_RADIUS + NEURON_SPACING)),
+    (float)center[2] * (2 * (NEURON_RADIUS + NEURON_SPACING))
+  );
+  glCallList(box);
+  glPopMatrix();
+}

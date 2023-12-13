@@ -13,17 +13,20 @@ class NavGraph {
   Provides interface for stimulating or inhibiting the current block. 
   */
 
-  void Move(PointIds3D dxyz_id);
-  void Stimulate();
-  void Inhibit();
+  public: 
+    void Move(PointIds3D dxyz_id);
+    void Stimulate();
+    void Inhibit();
 
-  NavNode* GetCurrentNode();
-  void AddCurrentNode(int r);
-  // void RemoveCurrentNode();
+    NavNode* GetCurrentNode();
+    void AddCurrentNode(int r);
+    // void RemoveCurrentNode();
 
-  NavNode* GetNode(PointIds3D xyz_id);
-  void AddNode(PointIds3D xyz_id, int r);
-  //void RemoveNode(PointIds3D xyz_id);
+    NavNode* GetNode(PointIds3D xyz_id);
+    void AddNode(PointIds3D xyz_id, int r);
+    //void RemoveNode(PointIds3D xyz_id);
+
+    std::vector<NavNode*> GetNavNodes();
 
   private:
     std::unordered_map<PointIds3D, NavNode*, container_hash<PointIds3D>> nodes;

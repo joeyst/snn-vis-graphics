@@ -29,6 +29,14 @@ void NavGraph::AddNode(PointIds3D xyz_id_, int r) {
   nodes[xyz_id_] = node;
 }
 
+std::vector<NavNode*> NavGraph::GetNavNodes() {
+  std::vector<NavNode*> res(0);
+  for (auto node : nodes) {
+    res.push_back(node.second);
+  }
+  return res;
+}
+
 /*
 void NavGraph::RemoveNode() {
   

@@ -34,4 +34,8 @@ void DrawSynapse(vector<int> start, vector<int> end, vector<Proportion> rgba);
 vector<float> GetSynapseDXYZ(vector<int> start, vector<int> end);
 float GetSynapseLength(vector<int> start, vector<int> end);
 
+GLuint box;
+void InitBoxDL();
+void DrawBox(vector<int> center, int r, vector<Proportion> rgba);
+
 /* End of Joey's globals, function decls., defines, includes. */

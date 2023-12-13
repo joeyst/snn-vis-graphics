@@ -58,6 +58,7 @@ void DrawNeuronResting(vector<int> xyz) {
   DrawNeuron(xyz, { 0.5f, 0.5f, 0.5f, 0.3f });
 }
 
+void DrawBox(vector<int> center, int r, vector<Proportion> rgba);
 void DrawNet() {
   for (Neuron* n : net->GetNeurons()) {
     if (n->EnergyIsAboveThreshold()) {
@@ -76,10 +77,31 @@ void DrawNet() {
       DrawSynapse(s->from.xyz, s->to.xyz, {0.5f, 0.5f, 0.5f, 0.05f});
     }
   }
+
+  for (NavNode* n : nav_graph->GetNavNodes()) {
+    if (n == nav_graph->GetCurrentNode()) {
+      DrawBox(n->xyz_id, n->r, {0.0f, 1.0f, 0.0f, 0.2f});
+    }
+    else {
+      DrawBox(n->xyz_id, n->r, {0.0f, 0.0f, 1.0f, 0.1f});
+    }
+  }
 }
 
 void TickNet() {
   net->Tick();
+}
+
+void Move(vector<int> xyz) {
+  nav_graph->Move(xyz);
+}
+
+void Stimulate() {
+  nav_graph->Stimulate();
+}
+
+void Inhibit() {
+  nav_graph->Inhibit();
 }
 
 #endif

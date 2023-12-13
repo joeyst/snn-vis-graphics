@@ -19,9 +19,10 @@ class NavNode {
     void Stimulate();
     void Inhibit();
 
-  private:
     std::vector<int> xyz_id;
     int r;
+
+  private:
     std::vector<Neuron*> neurons;
 };
 
