@@ -5,22 +5,7 @@
 #include "tuple_hash.h"
 #include "Point3D.h"
 #include <unordered_set>
-
-std::vector<PointIds3D> GetPointIdsInRadius(PointIds3D center, int r);
-
-class NavNode {
-  /*
-  Stores blocks of neurons. 
-  Statistics functions. 
-  */
-  public:
-    std::vector<PointIds3D> PointIds();
-
-  private:
-    std::vector<int> xyz_id;
-    int r;
-    std::vector<Neuron*> neurons;
-};
+#include "NavNode.h"
 
 class NavGraph {
   /*
